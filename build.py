@@ -98,6 +98,47 @@ ZONE_NAV = [
     ("김포공항·마곡 생활권", "gangseo-gu"), ("노원·상계 생활권", "nowon-gu"),
 ]
 
+# 인접 자치구 맵 — 내부링크를 '같은 6개'가 아니라 지리적 인접 구로 연결(롱테일·토픽 연관성↑)
+ADJ = {
+    "gangnam-gu": ["seocho-gu", "songpa-gu", "seongdong-gu", "gwangjin-gu", "gangdong-gu", "yongsan-gu"],
+    "gangdong-gu": ["songpa-gu", "gwangjin-gu", "gangnam-gu", "seongdong-gu"],
+    "gangbuk-gu": ["dobong-gu", "seongbuk-gu", "nowon-gu", "dongdaemun-gu"],
+    "gangseo-gu": ["yangcheon-gu", "guro-gu", "yeongdeungpo-gu", "mapo-gu"],
+    "gwanak-gu": ["dongjak-gu", "geumcheon-gu", "guro-gu", "seocho-gu"],
+    "gwangjin-gu": ["seongdong-gu", "gangdong-gu", "jungnang-gu", "dongdaemun-gu", "gangnam-gu"],
+    "guro-gu": ["geumcheon-gu", "yeongdeungpo-gu", "gwanak-gu", "gangseo-gu", "yangcheon-gu"],
+    "geumcheon-gu": ["guro-gu", "gwanak-gu", "yeongdeungpo-gu"],
+    "nowon-gu": ["dobong-gu", "gangbuk-gu", "jungnang-gu", "seongbuk-gu"],
+    "dobong-gu": ["nowon-gu", "gangbuk-gu", "seongbuk-gu"],
+    "dongdaemun-gu": ["seongbuk-gu", "jungnang-gu", "gwangjin-gu", "seongdong-gu", "jongno-gu", "jung-gu"],
+    "dongjak-gu": ["gwanak-gu", "seocho-gu", "yeongdeungpo-gu", "yongsan-gu", "guro-gu"],
+    "mapo-gu": ["seodaemun-gu", "yongsan-gu", "eunpyeong-gu", "yeongdeungpo-gu", "jung-gu", "gangseo-gu"],
+    "seodaemun-gu": ["mapo-gu", "eunpyeong-gu", "jongno-gu", "jung-gu", "seongbuk-gu"],
+    "seocho-gu": ["gangnam-gu", "dongjak-gu", "gwanak-gu", "yongsan-gu", "songpa-gu"],
+    "seongdong-gu": ["gwangjin-gu", "seongbuk-gu", "dongdaemun-gu", "jung-gu", "gangnam-gu", "yongsan-gu"],
+    "seongbuk-gu": ["dongdaemun-gu", "jongno-gu", "seongdong-gu", "gangbuk-gu", "dobong-gu", "jungnang-gu"],
+    "songpa-gu": ["gangdong-gu", "gangnam-gu", "gwangjin-gu", "seocho-gu"],
+    "yangcheon-gu": ["gangseo-gu", "guro-gu", "yeongdeungpo-gu", "geumcheon-gu"],
+    "yeongdeungpo-gu": ["yangcheon-gu", "guro-gu", "dongjak-gu", "mapo-gu", "yongsan-gu", "gangseo-gu"],
+    "yongsan-gu": ["jung-gu", "mapo-gu", "seongdong-gu", "dongjak-gu", "seocho-gu", "gangnam-gu"],
+    "eunpyeong-gu": ["seodaemun-gu", "mapo-gu", "jongno-gu"],
+    "jongno-gu": ["jung-gu", "seodaemun-gu", "seongbuk-gu", "dongdaemun-gu", "eunpyeong-gu", "yongsan-gu"],
+    "jung-gu": ["jongno-gu", "yongsan-gu", "seongdong-gu", "dongdaemun-gu", "mapo-gu"],
+    "jungnang-gu": ["dongdaemun-gu", "gwangjin-gu", "nowon-gu", "seongbuk-gu", "gangbuk-gu"],
+}
+DBYSLUG = {d["slug"]: d for d in DISTRICTS}
+
+
+def related_districts(slug, count=6):
+    """인접 자치구 우선, 부족하면 순서대로 채워 count개 반환."""
+    out = [s for s in ADJ.get(slug, []) if s in DBYSLUG]
+    for d in DISTRICTS:
+        if len(out) >= count:
+            break
+        if d["slug"] != slug and d["slug"] not in out:
+            out.append(d["slug"])
+    return [DBYSLUG[s] for s in out[:count]]
+
 
 def _nav_active(canonical):
     """canonical URL로 상단 메뉴 활성 키 결정."""
@@ -550,10 +591,18 @@ def render_district(d):
         f'<div class="glass card info-card"><h3>{esc(st)}</h3><p>{esc(name)} 생활권의 핵심 역세권으로, 출구·건물명을 함께 알려주면 이동 안내가 빠릅니다.</p></div>'
         for st in d["stations"]
     )
-    # 관련 내부링크 (다른 구 6개 + 가이드)
-    others = [x for x in DISTRICTS if x["slug"] != slug][:6]
-    related = "".join(f'<a class="chip" href="{esc(district_url(o["slug"]))}">{esc(o["name"])} 출장마사지</a>' for o in others)
-    guide_chips = "".join(f'<a class="chip" href="{esc(g["url"])}">{esc(g["label"])}</a>' for g in GUIDE_PAGES[:3])
+    # 관련 내부링크 — 인접 자치구 + 롱테일 앵커(지역+역세권+키워드)
+    others = related_districts(slug, 6)
+    related = "".join(
+        f'<a class="chip" href="{esc(district_url(o["slug"]))}">{esc(o["name"])} 출장마사지·{esc(o["stations"][0])} 홈타이 안내</a>'
+        for o in others
+    )
+    # 가이드 롱테일 앵커(자치구명 포함)
+    guide_chips = (
+        f'<a class="chip" href="/guide/booking/">{esc(name)} 출장마사지 예약 방법</a>'
+        f'<a class="chip" href="/guide/hometai/">{esc(name)} 홈타이 이용 가이드</a>'
+        f'<a class="chip" href="/guide/before-use/">{esc(name)} 이용 전 확인사항</a>'
+    )
 
     # FAQ
     faq_html = "".join(
@@ -619,6 +668,7 @@ def render_district(d):
       <li><strong>결제 방식·취소 기준</strong>은 예약 전에 미리 안내받는 것이 좋습니다.</li>
       <li><strong>위치 정보</strong>는 가까운 역 출구, 건물명, 단지·동을 함께 전달하면 정확합니다.</li>
     </ul>
+    <p>{esc(name)} 출장마사지 예약 절차와 추가 이동비 기준은 <a href="/guide/booking/">{esc(name)} 출장마사지 예약 방법 안내</a>에서, 방문 전 준비 사항은 <a href="/guide/before-use/">{esc(name)} 홈타이 이용 전 확인사항</a>에서 자세히 확인할 수 있습니다. 다른 지역이 필요하면 <a href="/#districts">서울 25개 자치구 출장마사지 안내</a>에서 가까운 구를 선택하세요.</p>
 
     <h2>안전·합법·개인정보 안내</h2>
     <p>{esc(SITE['brand'])}는 {esc(name)} 지역 안내에서 과장된 표현이나 허위 후기, 선정적 문구를 사용하지 않습니다. 이 페이지는 예약 전 지역·이동 기준·이용 주의사항을 확인하도록 돕는 정보형 안내이며, 실제 운영 데이터가 없는 경험성 표현은 사용하지 않습니다. 예약 과정에서 수집되는 개인정보는 <a href="/privacy/">개인정보 처리방침</a> 기준에 따라 처리됩니다.</p>
