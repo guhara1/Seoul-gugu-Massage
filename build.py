@@ -53,6 +53,9 @@ def head(title, desc, canonical, schema_blocks, extra_keywords="", noindex=False
     kw = ", ".join([KEYWORDS_MAIN] + KEYWORDS_SUB + ([extra_keywords] if extra_keywords else []))
     og_img = BASE + SITE["og_image"]
     robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
+    # 사이트 소유 확인 메타(메인 페이지에만)
+    verify = ('<meta name="naver-site-verification" content="0ccd93a7dacc68035d53db0fd694752f4961cc7f">\n'
+              if canonical == "/" else "")
     schema_json = "\n".join(
         f'<script type="application/ld+json">{json.dumps(b, ensure_ascii=False)}</script>'
         for b in schema_blocks
@@ -62,7 +65,7 @@ def head(title, desc, canonical, schema_blocks, extra_keywords="", noindex=False
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{esc(title)}</title>
+{verify}<title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <meta name="keywords" content="{esc(kw)}">
 <meta name="robots" content="{robots}">
