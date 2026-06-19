@@ -6,7 +6,7 @@ SITE = {
     "brand_short": "GUGU",
     "phone": "0508-202-4719",
     "phone_tel": "0508-202-4719",
-    "base_url": "https://www.gugu-massage.co.kr",  # 배포 도메인에 맞게 수정
+    "base_url": "https://seoul-gugu-massage.pages.dev",  # Cloudflare Pages 도메인
     "author": "서울 지역 방문관리 콘텐츠팀",
     "reviewer": "예약 운영 담당자",
     "updated": "2026-06-19",

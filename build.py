@@ -689,6 +689,23 @@ def render_robots():
         f.write(txt)
 
 
+def render_cloudflare():
+    # 루트는 메인으로 302 (HTML 플래시 없는 깔끔한 리다이렉트)
+    redirects = "/    /seoul-chuljangmassage/    302\n"
+    with open(os.path.join(ROOT, "_redirects"), "w", encoding="utf-8") as f:
+        f.write(redirects)
+    # 정적 자산 장기 캐시 + 기본 보안 헤더
+    headers = (
+        "/assets/*\n"
+        "  Cache-Control: public, max-age=31536000, immutable\n"
+        "/*\n"
+        "  X-Content-Type-Options: nosniff\n"
+        "  Referrer-Policy: strict-origin-when-cross-origin\n"
+    )
+    with open(os.path.join(ROOT, "_headers"), "w", encoding="utf-8") as f:
+        f.write(headers)
+
+
 # --------------------------------------------------------------------- #
 def clean():
     for p in ["seoul-chuljangmassage", "seoul", "guide", "support", "privacy"]:
@@ -706,6 +723,7 @@ def main():
     render_root_redirect()
     render_sitemap()
     render_robots()
+    render_cloudflare()
     total = 1 + len(DISTRICTS) + len(GUIDE_PAGES)
     print(f"빌드 완료: 메인 1 + 자치구 {len(DISTRICTS)} + 안내 {len(GUIDE_PAGES)} = 총 {total}개 페이지")
 

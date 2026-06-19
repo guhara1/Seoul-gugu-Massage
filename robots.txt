@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.gugu-massage.co.kr/sitemap.xml
+Sitemap: https://seoul-gugu-massage.pages.dev/sitemap.xml
