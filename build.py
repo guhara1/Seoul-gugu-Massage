@@ -71,6 +71,7 @@ def head(title, desc, canonical, schema_blocks, extra_keywords="", noindex=False
 <meta name="robots" content="{robots}">
 <meta name="author" content="{esc(SITE['author'])}">
 <link rel="canonical" href="{esc(BASE + canonical)}">
+<link rel="alternate" type="application/rss+xml" title="{esc(SITE['brand'])} RSS" href="{esc(BASE)}/rss.xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{esc(SITE['brand'])}">
 <meta property="og:title" content="{esc(title)}">
@@ -1430,9 +1431,75 @@ def render_sitemap():
 
 
 def render_robots():
-    txt = f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n"
+    # 전체 허용 + 주요 봇 명시(구글/네이버 Yeti/빙) + 사이트맵
+    txt = (
+        "User-agent: *\n"
+        "Allow: /\n\n"
+        "User-agent: Googlebot\n"
+        "Allow: /\n\n"
+        "User-agent: Googlebot-Image\n"
+        "Allow: /\n\n"
+        "User-agent: Yeti\n"        # 네이버
+        "Allow: /\n\n"
+        "User-agent: bingbot\n"
+        "Allow: /\n\n"
+        "User-agent: Daum\n"        # 다음
+        "Allow: /\n\n"
+        f"Sitemap: {BASE}/sitemap.xml\n"
+    )
     with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(txt)
+
+
+def _index_urls():
+    """색인 대상(=사이트맵과 동일) URL 목록."""
+    urls = ["/"]
+    urls += [district_url(d["slug"]) for d in DISTRICTS]
+    urls += [area_url(s["slug"]) for s in STATIONS]
+    urls += [area_url(z["slug"]) for z in ZONES]
+    urls += [g["url"] for g in GUIDE_PAGES]
+    return urls
+
+
+def render_rss():
+    """RSS 2.0 피드 — 색인 대상 페이지 발견용."""
+    import email.utils, time
+    pub = email.utils.formatdate(time.mktime(time.strptime(SITE["updated"], "%Y-%m-%d")), localtime=True)
+    items = []
+    # (url, title)
+    rows = [("/", SITE["brand"] + " — 서울 출장마사지·홈타이 지역 안내")]
+    rows += [(district_url(d["slug"]), d["title"]) for d in DISTRICTS]
+    rows += [(area_url(z["slug"]), f'{z["name"]} 출장마사지·홈타이 안내') for z in ZONES]
+    rows += [(area_url(s["slug"]), f'{s["name"]} 출장마사지·홈타이 안내') for s in STATIONS]
+    rows += [(g["url"], g["label"]) for g in GUIDE_PAGES]
+    for u, t in rows:
+        link = BASE + u
+        items.append(
+            f"<item><title>{esc(t)}</title><link>{esc(link)}</link>"
+            f"<guid isPermaLink=\"true\">{esc(link)}</guid><pubDate>{pub}</pubDate>"
+            f"<description>{esc(t)}</description></item>"
+        )
+    rss = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n'
+        f"<title>{esc(SITE['brand'])} — 서울 출장마사지·홈타이 안내</title>\n"
+        f"<link>{BASE}/</link>\n"
+        f'<atom:link href="{BASE}/rss.xml" rel="self" type="application/rss+xml"/>\n'
+        "<description>서울 25개 자치구·역세권·생활권 출장마사지·홈타이 예약 안내</description>\n"
+        "<language>ko</language>\n"
+        f"<lastBuildDate>{pub}</lastBuildDate>\n"
+        + "\n".join(items) +
+        "\n</channel>\n</rss>\n"
+    )
+    with open(os.path.join(ROOT, "rss.xml"), "w", encoding="utf-8") as f:
+        f.write(rss)
+
+
+def render_indexnow_key():
+    """IndexNow 키 검증 파일 ({key}.txt) 생성."""
+    key = SITE["indexnow_key"]
+    with open(os.path.join(ROOT, f"{key}.txt"), "w", encoding="utf-8") as f:
+        f.write(key)
 
 
 def render_cloudflare():
@@ -1480,7 +1547,9 @@ def main():
         render_zone(z)
     render_guides()
     render_sitemap()
+    render_rss()
     render_robots()
+    render_indexnow_key()
     render_cloudflare()
     n_station = len(STATIONS) + len(BASIC_STATIONS)
     total = 1 + len(DISTRICTS) + n_station + len(ZONES) + len(GUIDE_PAGES)

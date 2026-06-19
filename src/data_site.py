@@ -12,6 +12,7 @@ SITE = {
     "updated": "2026-06-19",
     "updated_label": "2026년 6월",
     "og_image": "/assets/img/og-cover.svg",
+    "indexnow_key": "a5041c18823594962ef47380f0ac3912",
 }
 
 # 메인 키워드 / 보조 키워드
