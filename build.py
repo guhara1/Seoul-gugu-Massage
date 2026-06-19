@@ -269,7 +269,7 @@ def header(canonical="/"):
         items_html += "</li>"
 
     return f"""<a class="skip-link" href="#main">본문 바로가기</a>
-<header class="site-header">
+<header class="site-header" id="top">
   <div class="header-accent" aria-hidden="true"></div>
   <div class="header-top">
     <div class="header-inner">
@@ -296,28 +296,44 @@ def footer():
     guide_links = "".join(f'<a href="{esc(g["url"])}">{esc(g["label"])}</a>' for g in GUIDE_PAGES)
     district_links = "".join(
         f'<a href="{esc(district_url(d["slug"]))}">{esc(d["name"])}</a>'
-        for d in DISTRICTS[:12]
+        for d in DISTRICTS[:10]
     )
-    return f"""<footer class="site-footer">
+    explore_links = (
+        '<a href="/#districts">자치구별 안내</a>'
+        '<a href="/#popular">인기 역세권·생활권</a>'
+        '<a href="/#all-stations">지하철 노선별 역</a>'
+        '<a href="/guide/hometai/">홈타이 이용 가이드</a>'
+    )
+    return f"""<footer class="site-footer" role="contentinfo">
   <div class="wrap">
     <div class="footer-grid">
-      <div>
-        <h4>{esc(SITE['brand'])}</h4>
-        <p class="footer-note">서울 25개 자치구·행정동·역세권 기준으로 출장마사지와 홈타이 예약 전 확인 정보를 안내하는 지역 정보 사이트입니다. 예약 전 방문 가능 지역, 이동 기준, 이용 주의사항을 확인하세요.</p>
-        <p style="margin-top:14px"><a class="nav-cta" href="tel:{esc(SITE['phone_tel'])}">📞 {esc(SITE['phone'])}</a></p>
+      <div class="footer-about">
+        <a class="brand" href="/"><span class="brand-mark">G</span> <span class="brand-text">{esc(SITE['brand'])}</span></a>
+        <p class="footer-note">서울 25개 자치구와 행정동, 지하철 역세권을 기준으로 방문 관리(출장마사지·홈타이) 예약 전 확인 정보를 제공하는 지역 정보 사이트입니다.</p>
+        <address class="footer-contact">
+          <span><strong>운영</strong> {esc(SITE['brand'])} · 서울 지역 안내</span>
+          <span><strong>지역</strong> 서울특별시 전 지역</span>
+          <span><strong>상담</strong> 연중무휴 · 예약 전 전화 문의</span>
+          <a class="nav-cta" href="tel:{esc(SITE['phone_tel'])}">📞 예약전화 {esc(SITE['phone'])}</a>
+        </address>
       </div>
-      <div>
+      <nav class="footer-col" aria-label="이용 안내">
         <h4>이용 안내</h4>
         <div class="footer-links">{guide_links}</div>
-      </div>
-      <div>
+      </nav>
+      <nav class="footer-col" aria-label="자치구 바로가기">
         <h4>자치구 바로가기</h4>
-        <div class="footer-links">{district_links}<a href="/#districts">전체 25개 구 →</a></div>
-      </div>
+        <div class="footer-links">{district_links}<a href="/#districts">전체 25개 구 보기</a></div>
+      </nav>
+      <nav class="footer-col" aria-label="전체 탐색">
+        <h4>전체 탐색</h4>
+        <div class="footer-links">{explore_links}</div>
+      </nav>
     </div>
+    <p class="footer-disclaimer">본 사이트는 서울 지역 방문 관리(출장마사지·홈타이) 예약 안내를 제공하는 정보 사이트로, 모든 콘텐츠는 예약 전 참고용 정보입니다. 합법적이고 건전한 서비스 이용을 전제로 하며, 불법·선정적 내용이나 허위 후기를 제공하지 않습니다.</p>
     <div class="footer-bottom">
-      <span>© 2026 {esc(SITE['brand'])}. 서울 출장마사지·홈타이 지역 안내.</span>
-      <span>전화예약 {esc(SITE['phone'])} · 최종 수정일 {esc(SITE['updated_label'])}</span>
+      <span>© 2026 {esc(SITE['brand'])}. All rights reserved.</span>
+      <span class="footer-meta">최종 수정일 {esc(SITE['updated_label'])} · <a href="/privacy/">개인정보 처리방침</a> · <a href="#top">맨 위로 ↑</a></span>
     </div>
   </div>
 </footer>"""
@@ -531,11 +547,11 @@ def render_main():
 
     # 인기 지역 롱테일 링크 클러스터 (역세권 + 생활권)
     station_links = "".join(
-        f'<a class="chip" href="{esc(area_url(s["slug"]))}">{esc(s["name"])} 출장마사지</a>'
+        f'<a class="chip" href="{esc(area_url(s["slug"]))}">{esc(s["name"])}</a>'
         for s in STATIONS
     )
     zone_links = "".join(
-        f'<a class="chip" href="{esc(area_url(z["slug"]))}">{esc(z["name"])} 홈타이</a>'
+        f'<a class="chip" href="{esc(area_url(z["slug"]))}">{esc(z["name"])}</a>'
         for z in ZONES
     )
 
@@ -546,7 +562,7 @@ def render_main():
         if not items:
             continue
         chips = "".join(
-            f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])} 출장마사지</a>' for o in items
+            f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])}</a>' for o in items
         )
         line_blocks += (
             f'<details class="line-group"><summary>{esc(ln)} <span class="muted">({len(items)}개 역)</span></summary>'
@@ -691,8 +707,8 @@ def render_district(d):
     def _station_card(st):
         sslug = STATION_BY_NAME.get(st)
         if sslug:
-            head = f'<h3><a href="{esc(area_url(sslug))}">{esc(st)} 출장마사지</a></h3>'
-            body_p = f'{esc(name)}의 핵심 역세권입니다. <a href="{esc(area_url(sslug))}">{esc(st)} 홈타이·출장마사지 안내</a>에서 출구·건물 기준을 확인하세요.'
+            head = f'<h3><a href="{esc(area_url(sslug))}">{esc(st)}</a></h3>'
+            body_p = f'{esc(name)}의 핵심 역세권입니다. <a href="{esc(area_url(sslug))}">{esc(st)} 안내</a>에서 출구·건물 기준을 확인하세요.'
         else:
             head = f'<h3>{esc(st)}</h3>'
             body_p = f'{esc(name)} 생활권의 핵심 역세권으로, 출구·건물명을 함께 알려주면 이동 안내가 빠릅니다.'
@@ -701,14 +717,14 @@ def render_district(d):
     # 관련 내부링크 — 인접 자치구 + 롱테일 앵커(지역+역세권+키워드)
     others = related_districts(slug, 6)
     related = "".join(
-        f'<a class="chip" href="{esc(district_url(o["slug"]))}">{esc(o["name"])} 출장마사지·{esc(o["stations"][0])} 홈타이 안내</a>'
+        f'<a class="chip" href="{esc(district_url(o["slug"]))}">{esc(o["name"])}</a>'
         for o in others
     )
-    # 가이드 롱테일 앵커(자치구명 포함)
+    # 가이드 앵커(자연스러운 라벨)
     guide_chips = (
-        f'<a class="chip" href="/guide/booking/">{esc(name)} 출장마사지 예약 방법</a>'
-        f'<a class="chip" href="/guide/hometai/">{esc(name)} 홈타이 이용 가이드</a>'
-        f'<a class="chip" href="/guide/before-use/">{esc(name)} 이용 전 확인사항</a>'
+        '<a class="chip" href="/guide/booking/">예약 방법 안내</a>'
+        '<a class="chip" href="/guide/hometai/">홈타이 이용 가이드</a>'
+        '<a class="chip" href="/guide/before-use/">이용 전 확인사항</a>'
     )
 
     # FAQ
@@ -838,24 +854,23 @@ def render_station(s):
     if len(near) < 4:
         near += [x for x in STATIONS if x["slug"] != slug and x not in near][:4 - len(near)]
     near_chips = "".join(
-        f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])} 출장마사지·홈타이</a>'
+        f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])}</a>'
         for o in near
     )
     zone_chip = ""
     if s.get("zone") and s["zone"] in ZBYSLUG:
         z = ZBYSLUG[s["zone"]]
-        zone_chip = f'<a class="chip" href="{esc(area_url(z["slug"]))}">{esc(z["name"])} 안내</a>'
-    gu_chip = f'<a class="chip" href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 출장마사지 전체 안내</a>'
+        zone_chip = f'<a class="chip" href="{esc(area_url(z["slug"]))}">{esc(z["name"])}</a>'
+    gu_chip = f'<a class="chip" href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 전체 안내</a>'
     guide_chips = (
-        f'<a class="chip" href="/guide/booking/">{esc(name)} 출장마사지 예약 방법</a>'
-        f'<a class="chip" href="/guide/hometai/">{esc(name)} 홈타이 이용 가이드</a>'
+        '<a class="chip" href="/guide/booking/">예약 방법 안내</a>'
+        '<a class="chip" href="/guide/hometai/">홈타이 이용 가이드</a>'
     )
 
     # 노선·출구 롱테일 섹션
     extra = STATION_EXTRA.get(slug, {})
     line_list = [ln.strip() for ln in s["lines"].split("·") if ln.strip()]
-    line_badges = " · ".join(f"{name} {ln}" for ln in line_list)
-    line_kw = ", ".join(f"{name} {ln} 출장마사지" for ln in line_list)
+    line_badges = " · ".join(line_list)
     exits = extra.get("exits", [])
     exit_items = "".join(
         f"<li><strong>{esc(name)} {esc(label)}</strong> — {esc(d_)}</li>" for label, d_ in exits
@@ -869,7 +884,7 @@ def render_station(s):
     <p class="muted">이용 가능 노선: {esc(line_badges)}</p>
     <h3>{esc(name)} 출구별 위치</h3>
     <ul>{exit_items}</ul>
-    <p>{esc(name)}에서 출장마사지·홈타이를 예약할 때는 {esc(name)} {esc(exit_lead)} 등 가까운 출구와 건물명을 함께 알려주시면 이동 안내가 빠릅니다. 노선별로는 {esc(line_kw)} 검색으로도 같은 안내를 확인할 수 있습니다.</p>
+    <p>{esc(name)}에서 예약하실 때는 {esc(exit_lead)} 등 가까운 출구와 건물명을 함께 알려주시면 이동 안내가 빠릅니다.</p>
   </div>
 </section>
 """ if extra else ""
@@ -982,13 +997,13 @@ def render_station_basic(x):
     # 같은 노선 역 롱테일 내부링크
     others = _same_line_others(x, 6)
     others_chips = "".join(
-        f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])} 출장마사지</a>' for o in others
+        f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])}</a>' for o in others
     )
-    gu_chip = f'<a class="chip" href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 출장마사지 전체 안내</a>' if gu else ''
+    gu_chip = f'<a class="chip" href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 전체 안내</a>' if gu else ''
     guide_chips = (
-        f'<a class="chip" href="/guide/booking/">{esc(name)} 출장마사지 예약 방법</a>'
-        f'<a class="chip" href="/guide/hometai/">{esc(name)} 홈타이 이용 가이드</a>'
-        f'<a class="chip" href="/#all-stations">서울 전체 역세권 보기</a>'
+        '<a class="chip" href="/guide/booking/">예약 방법 안내</a>'
+        '<a class="chip" href="/guide/hometai/">홈타이 이용 가이드</a>'
+        '<a class="chip" href="/#all-stations">서울 전체 역세권 보기</a>'
     )
 
     # 노선 특성·인접역명 주입(역마다 달라 중복 완화에 가장 효과적)
@@ -1017,7 +1032,6 @@ def render_station_basic(x):
     ]
     intro = intro_variants[i % len(intro_variants)]
     area = area_variants[(i + 2) % len(area_variants)]
-    line_kw = ", ".join(f"{name} {ln} 출장마사지" for ln in lines)
     gu_link_sentence = (
         f' 더 넓은 지역 기준은 <a href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 출장마사지 안내</a>에서 함께 확인할 수 있습니다.'
         if gu else ' 인근 지역은 <a href="/#districts">서울 25개 자치구 안내</a>에서 확인할 수 있습니다.'
@@ -1060,9 +1074,9 @@ def render_station_basic(x):
   <div class="wrap prose">
     <h2>{esc(name)} 주변 안내</h2>
     <p>{esc(area)}</p>
-    <p class="muted">이용 가능 노선: {esc(' · '.join(f'{name} {ln}' for ln in lines))}</p>
-    <h2>{esc(name)}에서 출장마사지·홈타이를 찾을 때</h2>
-    <p>{esc(name)} 출장마사지나 홈타이를 검색하는 분들은 보통 이동 시간을 줄이려고 가까운 역세권을 기준으로 방문 가능 여부를 확인합니다.{gu_link_sentence} 노선별로는 {esc(line_kw)} 검색으로도 같은 안내를 확인할 수 있습니다.</p>
+    <p class="muted">이용 가능 노선: {esc(' · '.join(lines))}</p>
+    <h2>{esc(name)} 방문 관리 이용 안내</h2>
+    <p>{esc(name)} 인근에서 방문 관리를 찾는 분들은 보통 이동 시간을 줄이려고 가까운 역세권을 기준으로 방문 가능 여부를 확인합니다.{gu_link_sentence}</p>
   </div>
 </section>
 
@@ -1125,18 +1139,18 @@ def render_zone(z):
 
     zone_stations = [SBYSLUG[ss] for ss in z.get("stations", []) if ss in SBYSLUG]
     station_chips = "".join(
-        f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])} 출장마사지·홈타이</a>'
+        f'<a class="chip" href="{esc(area_url(o["slug"]))}">{esc(o["name"])}</a>'
         for o in zone_stations
     )
-    gu_chip = f'<a class="chip" href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 출장마사지 전체 안내</a>'
+    gu_chip = f'<a class="chip" href="{esc(district_url(gu["slug"]))}">{esc(gu_name)} 전체 안내</a>'
     guide_chips = (
-        f'<a class="chip" href="/guide/booking/">{esc(name)} 출장마사지 예약 방법</a>'
-        f'<a class="chip" href="/guide/hometai/">홈타이 이용 가이드</a>'
+        '<a class="chip" href="/guide/booking/">예약 방법 안내</a>'
+        '<a class="chip" href="/guide/hometai/">홈타이 이용 가이드</a>'
     )
-    # 본문 내 역세권 롱테일 링크 문장
+    # 본문 내 역세권 링크 문장
     if zone_stations:
         st_links = ", ".join(
-            f'<a href="{esc(area_url(o["slug"]))}">{esc(o["name"])} 출장마사지</a>' for o in zone_stations
+            f'<a href="{esc(area_url(o["slug"]))}">{esc(o["name"])}</a>' for o in zone_stations
         )
         st_sentence = f"이 권역에는 {st_links} 안내가 포함됩니다. 가까운 역세권 페이지에서 출구·건물 기준을 확인하세요."
     else:
@@ -1178,7 +1192,7 @@ def render_zone(z):
       <li><strong>건물 유형·동·호수</strong>와 가까운 역을 함께 전달하면 정확합니다.</li>
       <li><strong>추가 이동비·결제·취소 기준</strong>은 예약 시 미리 안내받는 것이 좋습니다.</li>
     </ul>
-    <p>예약 절차는 <a href="/guide/booking/">{esc(name)} 출장마사지 예약 방법</a>, 방문 전 준비는 <a href="/guide/before-use/">이용 전 확인사항</a>에서 확인할 수 있습니다.</p>
+    <p>예약 절차는 <a href="/guide/booking/">예약 방법 안내</a>, 방문 전 준비는 <a href="/guide/before-use/">이용 전 확인사항</a>에서 확인할 수 있습니다.</p>
 
     <h2>안전·합법·개인정보 안내</h2>
     <p>{esc(SITE['brand'])}는 {esc(name)} 안내에서 과장·허위·선정적 표현을 사용하지 않으며, 예약 전 확인 정보를 돕는 정보형 안내만 제공합니다. 예약 과정의 개인정보는 <a href="/privacy/">개인정보 처리방침</a> 기준으로 처리됩니다.</p>

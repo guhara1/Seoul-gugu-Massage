@@ -33,7 +33,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main">본문 바로가기</a>
-<header class="site-header">
+<header class="site-header" id="top">
   <div class="header-accent" aria-hidden="true"></div>
   <div class="header-top">
     <div class="header-inner">
@@ -66,9 +66,9 @@
   <div class="wrap prose">
     <h2>녹사평역 주변 안내</h2>
     <p>녹사평역 일대는 6호선 이용객 흐름에 따라 시간대별 혼잡도가 달라집니다. 정확한 출구와 건물·동·호수를 알려주시면 방문 안내가 빨라집니다.</p>
-    <p class="muted">이용 가능 노선: 녹사평역 6호선</p>
-    <h2>녹사평역에서 출장마사지·홈타이를 찾을 때</h2>
-    <p>녹사평역 출장마사지나 홈타이를 검색하는 분들은 보통 이동 시간을 줄이려고 가까운 역세권을 기준으로 방문 가능 여부를 확인합니다. 인근 지역은 <a href="/#districts">서울 25개 자치구 안내</a>에서 확인할 수 있습니다. 노선별로는 녹사평역 6호선 출장마사지 검색으로도 같은 안내를 확인할 수 있습니다.</p>
+    <p class="muted">이용 가능 노선: 6호선</p>
+    <h2>녹사평역 방문 관리 이용 안내</h2>
+    <p>녹사평역 인근에서 방문 관리를 찾는 분들은 보통 이동 시간을 줄이려고 가까운 역세권을 기준으로 방문 가능 여부를 확인합니다. 인근 지역은 <a href="/#districts">서울 25개 자치구 안내</a>에서 확인할 수 있습니다.</p>
   </div>
 </section>
 
@@ -99,7 +99,7 @@
     <div class="eyebrow">관련 안내</div>
     <h2 style="color:var(--t-hi)">같은 노선·인근 역세권</h2>
     <p class="muted">같은 노선의 가까운 역세권과 지역, 공통 이용 안내를 함께 확인하세요.</p>
-    <div class="chip-grid" style="margin-top:16px"><a class="chip" href="/seoul/hapjeong-station-chuljangmassage/">합정역 출장마사지</a><a class="chip" href="/seoul/yeonsinnae-station-chuljangmassage/">연신내역 출장마사지</a><a class="chip" href="/seoul/anam-station-chuljangmassage/">안암역 출장마사지</a><a class="chip" href="/seoul/beotigogae-station-chuljangmassage/">버티고개역 출장마사지</a><a class="chip" href="/seoul/bonghwasan-station-chuljangmassage/">봉화산역 출장마사지</a><a class="chip" href="/seoul/bulgwang-station-chuljangmassage/">불광역 출장마사지</a><a class="chip" href="/guide/booking/">녹사평역 출장마사지 예약 방법</a><a class="chip" href="/guide/hometai/">녹사평역 홈타이 이용 가이드</a><a class="chip" href="/#all-stations">서울 전체 역세권 보기</a></div>
+    <div class="chip-grid" style="margin-top:16px"><a class="chip" href="/seoul/hapjeong-station-chuljangmassage/">합정역</a><a class="chip" href="/seoul/yeonsinnae-station-chuljangmassage/">연신내역</a><a class="chip" href="/seoul/anam-station-chuljangmassage/">안암역</a><a class="chip" href="/seoul/beotigogae-station-chuljangmassage/">버티고개역</a><a class="chip" href="/seoul/bonghwasan-station-chuljangmassage/">봉화산역</a><a class="chip" href="/seoul/bulgwang-station-chuljangmassage/">불광역</a><a class="chip" href="/guide/booking/">예약 방법 안내</a><a class="chip" href="/guide/hometai/">홈타이 이용 가이드</a><a class="chip" href="/#all-stations">서울 전체 역세권 보기</a></div>
   </div>
 </section>
 
@@ -127,26 +127,36 @@
 </section>
 
 </main>
-<footer class="site-footer">
+<footer class="site-footer" role="contentinfo">
   <div class="wrap">
     <div class="footer-grid">
-      <div>
-        <h4>GUGU 마사지</h4>
-        <p class="footer-note">서울 25개 자치구·행정동·역세권 기준으로 출장마사지와 홈타이 예약 전 확인 정보를 안내하는 지역 정보 사이트입니다. 예약 전 방문 가능 지역, 이동 기준, 이용 주의사항을 확인하세요.</p>
-        <p style="margin-top:14px"><a class="nav-cta" href="tel:0508-202-4719">📞 0508-202-4719</a></p>
+      <div class="footer-about">
+        <a class="brand" href="/"><span class="brand-mark">G</span> <span class="brand-text">GUGU 마사지</span></a>
+        <p class="footer-note">서울 25개 자치구와 행정동, 지하철 역세권을 기준으로 방문 관리(출장마사지·홈타이) 예약 전 확인 정보를 제공하는 지역 정보 사이트입니다.</p>
+        <address class="footer-contact">
+          <span><strong>운영</strong> GUGU 마사지 · 서울 지역 안내</span>
+          <span><strong>지역</strong> 서울특별시 전 지역</span>
+          <span><strong>상담</strong> 연중무휴 · 예약 전 전화 문의</span>
+          <a class="nav-cta" href="tel:0508-202-4719">📞 예약전화 0508-202-4719</a>
+        </address>
       </div>
-      <div>
+      <nav class="footer-col" aria-label="이용 안내">
         <h4>이용 안내</h4>
         <div class="footer-links"><a href="/guide/booking/">예약 안내</a><a href="/guide/before-use/">이용 전 확인사항</a><a href="/guide/hometai/">홈타이 이용 가이드</a><a href="/support/">고객센터</a><a href="/privacy/">개인정보 처리방침</a></div>
-      </div>
-      <div>
+      </nav>
+      <nav class="footer-col" aria-label="자치구 바로가기">
         <h4>자치구 바로가기</h4>
-        <div class="footer-links"><a href="/seoul/gangnam-gu-chuljangmassage/">강남구</a><a href="/seoul/gangdong-gu-chuljangmassage/">강동구</a><a href="/seoul/gangbuk-gu-chuljangmassage/">강북구</a><a href="/seoul/gangseo-gu-chuljangmassage/">강서구</a><a href="/seoul/gwanak-gu-chuljangmassage/">관악구</a><a href="/seoul/gwangjin-gu-chuljangmassage/">광진구</a><a href="/seoul/guro-gu-chuljangmassage/">구로구</a><a href="/seoul/geumcheon-gu-chuljangmassage/">금천구</a><a href="/seoul/nowon-gu-chuljangmassage/">노원구</a><a href="/seoul/dobong-gu-chuljangmassage/">도봉구</a><a href="/seoul/dongdaemun-gu-chuljangmassage/">동대문구</a><a href="/seoul/dongjak-gu-chuljangmassage/">동작구</a><a href="/#districts">전체 25개 구 →</a></div>
-      </div>
+        <div class="footer-links"><a href="/seoul/gangnam-gu-chuljangmassage/">강남구</a><a href="/seoul/gangdong-gu-chuljangmassage/">강동구</a><a href="/seoul/gangbuk-gu-chuljangmassage/">강북구</a><a href="/seoul/gangseo-gu-chuljangmassage/">강서구</a><a href="/seoul/gwanak-gu-chuljangmassage/">관악구</a><a href="/seoul/gwangjin-gu-chuljangmassage/">광진구</a><a href="/seoul/guro-gu-chuljangmassage/">구로구</a><a href="/seoul/geumcheon-gu-chuljangmassage/">금천구</a><a href="/seoul/nowon-gu-chuljangmassage/">노원구</a><a href="/seoul/dobong-gu-chuljangmassage/">도봉구</a><a href="/#districts">전체 25개 구 보기</a></div>
+      </nav>
+      <nav class="footer-col" aria-label="전체 탐색">
+        <h4>전체 탐색</h4>
+        <div class="footer-links"><a href="/#districts">자치구별 안내</a><a href="/#popular">인기 역세권·생활권</a><a href="/#all-stations">지하철 노선별 역</a><a href="/guide/hometai/">홈타이 이용 가이드</a></div>
+      </nav>
     </div>
+    <p class="footer-disclaimer">본 사이트는 서울 지역 방문 관리(출장마사지·홈타이) 예약 안내를 제공하는 정보 사이트로, 모든 콘텐츠는 예약 전 참고용 정보입니다. 합법적이고 건전한 서비스 이용을 전제로 하며, 불법·선정적 내용이나 허위 후기를 제공하지 않습니다.</p>
     <div class="footer-bottom">
-      <span>© 2026 GUGU 마사지. 서울 출장마사지·홈타이 지역 안내.</span>
-      <span>전화예약 0508-202-4719 · 최종 수정일 2026년 6월</span>
+      <span>© 2026 GUGU 마사지. All rights reserved.</span>
+      <span class="footer-meta">최종 수정일 2026년 6월 · <a href="/privacy/">개인정보 처리방침</a> · <a href="#top">맨 위로 ↑</a></span>
     </div>
   </div>
 </footer>
