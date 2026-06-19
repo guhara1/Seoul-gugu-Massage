@@ -1,7 +1,6 @@
 /* =====================================================================
-   GUGU 마사지 — "클린 라이트" 프리미엄 디자인 시스템
-   밝은 계열 배경 + 네이비 잉크 + 골드 액센트 / Pretendard
-   (토큰 기반 — 다크 '미드나잇 글래스'로 되돌리려면 :root 토큰만 교체)
+   GUGU 마사지 — "미드나잇 글래스" 프리미엄 디자인 시스템
+   Pretendard + 디자인 토큰 + 글래스모피즘 컴포넌트 오버레이
    ===================================================================== */
 
 @font-face {
@@ -13,63 +12,63 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* 1. 디자인 토큰 — 밝은 프리미엄 팔레트 (네이비 + 골드)               */
+/* 1. 디자인 토큰 — 프리미엄 팔레트 (미드나잇 블루 그라데이션 + 글로우) */
 /* ------------------------------------------------------------------ */
 :root {
-  /* 밝은 배경 베이스 */
-  --c-paper:   #ffffff;
-  --c-bg:      #f5f7fc;
-  --c-bg-2:    #eef2f9;
-  --c-tint:    #f9fbff;
+  /* 미드나잇 블루 베이스 */
+  --c-abyss:      #04060f;
+  --c-midnight:   #070b1d;
+  --c-navy:       #0c1230;
+  --c-navy-2:     #131a3f;
+  --c-navy-3:     #1b2454;
 
-  /* 표면(카드) */
-  --glass-bg:      #ffffff;
-  --glass-bg-2:    #fbfcff;
-  --glass-border:  #e6ebf3;
-  --glass-border-2:#d6deec;
-  --glass-blur:    8px;
+  /* 글래스 표면 */
+  --glass-bg:      rgba(255, 255, 255, 0.055);
+  --glass-bg-2:    rgba(255, 255, 255, 0.085);
+  --glass-border:  rgba(255, 255, 255, 0.12);
+  --glass-border-2:rgba(255, 255, 255, 0.22);
+  --glass-blur:    18px;
 
-  /* 골드 / 샴페인 액센트 (밝은 배경에서 보이도록 진하게) */
-  --gold:         #b8902f;
-  --gold-soft:    #caa44c;
-  --gold-deep:    #8c6c1c;
-  --champagne:    #d9b765;
+  /* 골드 / 샴페인 액센트 (가장 화려한 럭셔리 포인트) */
+  --gold:         #e8c97a;
+  --gold-soft:    #d8b863;
+  --gold-deep:    #b9933f;
+  --champagne:    #f4e6c1;
 
-  /* 보조 액센트 (신뢰형 블루) */
-  --glow-blue:    #2f6fed;
-  --glow-cyan:    #2f80ed;
+  /* 글로우 블루 */
+  --glow-blue:    #5b8cff;
+  --glow-cyan:    #6fe3ff;
 
-  /* 텍스트 (네이비 잉크 계열) */
-  --ink:     #16203a;
-  --t-hi:    #16203a;
-  --t-mid:   #3d4965;
-  --t-lo:    #6a7691;
-  --t-faint: #9aa3bb;
+  /* 텍스트 */
+  --t-hi:    #f6f8ff;
+  --t-mid:   #c3cbe8;
+  --t-lo:    #8b94bd;
+  --t-faint: #5d668e;
 
   /* 그라데이션 토큰 */
-  --grad-page:   radial-gradient(1100px 680px at 82% -6%, rgba(47,111,237,.07), transparent 60%),
-                 radial-gradient(820px 560px at 6% 4%, rgba(184,144,47,.07), transparent 56%),
-                 linear-gradient(180deg, #ffffff 0%, var(--c-bg) 60%, var(--c-bg-2) 100%);
-  --grad-gold:   linear-gradient(135deg, #e7cf8e 0%, var(--gold) 48%, var(--gold-deep) 100%);
-  --grad-glass:  linear-gradient(180deg, #ffffff, #ffffff);
+  --grad-page:   radial-gradient(1200px 720px at 78% -8%, rgba(91,140,255,.18), transparent 60%),
+                 radial-gradient(900px 600px at 10% 8%, rgba(232,201,122,.10), transparent 55%),
+                 linear-gradient(180deg, var(--c-midnight) 0%, var(--c-navy) 42%, var(--c-abyss) 100%);
+  --grad-gold:   linear-gradient(135deg, var(--champagne) 0%, var(--gold) 45%, var(--gold-deep) 100%);
+  --grad-glass:  linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.02));
 
-  /* 그림자 / 글로우 (밝은 톤 소프트 섀도) */
-  --shadow-card: 0 10px 28px -18px rgba(22,33,61,.22), 0 1px 0 rgba(22,33,61,.03);
-  --shadow-lift: 0 22px 48px -24px rgba(22,33,61,.30);
-  --glow-gold:   0 8px 22px -10px rgba(184,144,47,.55);
+  /* 그림자 / 글로우 */
+  --shadow-card: 0 18px 48px -22px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.06);
+  --shadow-lift: 0 28px 70px -28px rgba(0,0,0,.85), 0 0 0 1px var(--glass-border-2);
+  --glow-gold:   0 0 0 1px rgba(232,201,122,.45), 0 14px 40px -12px rgba(232,201,122,.40);
 
   /* 형태 */
   --r-xs: 10px;
   --r-sm: 14px;
   --r-md: 18px;
-  --r-lg: 24px;
+  --r-lg: 26px;
   --r-pill: 999px;
 
   /* 타이포 스케일 */
-  --fs-hero: clamp(2.0rem, 5vw, 3.4rem);
-  --fs-h1:   clamp(1.65rem, 3.6vw, 2.5rem);
-  --fs-h2:   clamp(1.28rem, 2.5vw, 1.66rem);
-  --fs-h3:   1.1rem;
+  --fs-hero: clamp(2.1rem, 5.2vw, 3.6rem);
+  --fs-h1:   clamp(1.7rem, 3.8vw, 2.6rem);
+  --fs-h2:   clamp(1.3rem, 2.6vw, 1.7rem);
+  --fs-h3:   1.12rem;
   --fs-body: 1.02rem;
   --fs-sm:   0.9rem;
 
@@ -77,7 +76,7 @@
   --maxw: 1120px;
   --gap:  clamp(16px, 2.6vw, 28px);
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 /* ------------------------------------------------------------------ */
@@ -95,7 +94,7 @@ body {
   line-height: 1.78;
   letter-spacing: -0.01em;
   color: var(--t-mid);
-  background: var(--c-bg);
+  background: var(--c-midnight);
   background-image: var(--grad-page);
   background-attachment: fixed;
   min-height: 100vh;
@@ -107,29 +106,31 @@ body {
 img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; text-decoration: none; }
 
-h1, h2, h3, h4 { color: var(--ink); line-height: 1.34; letter-spacing: -0.02em; font-weight: 760; }
+h1, h2, h3, h4 { color: var(--t-hi); line-height: 1.32; letter-spacing: -0.02em; font-weight: 760; }
 
-::selection { background: rgba(184,144,47,.22); color: var(--gold-deep); }
+::selection { background: rgba(232,201,122,.28); color: var(--champagne); }
 
+/* 스킵 링크 (접근성) */
 .skip-link {
   position: absolute; left: -999px; top: 0; z-index: 999;
-  background: var(--gold); color: #fff; padding: 10px 16px; border-radius: 0 0 10px 0; font-weight: 700;
+  background: var(--gold); color: #1a1305; padding: 10px 16px; border-radius: 0 0 10px 0; font-weight: 700;
 }
 .skip-link:focus { left: 0; }
-:focus-visible { outline: 2px solid var(--glow-blue); outline-offset: 3px; border-radius: 6px; }
+
+:focus-visible { outline: 2px solid var(--glow-cyan); outline-offset: 3px; border-radius: 6px; }
 
 /* ------------------------------------------------------------------ */
 /* 3. 레이아웃 유틸                                                    */
 /* ------------------------------------------------------------------ */
 .wrap { width: min(100% - 36px, var(--maxw)); margin-inline: auto; }
-.section { padding-block: clamp(38px, 6.5vw, 72px); }
+.section { padding-block: clamp(40px, 7vw, 78px); }
 .stack > * + * { margin-top: 1.05em; }
 .eyebrow {
   display: inline-flex; align-items: center; gap: 8px;
-  font-size: .78rem; font-weight: 800; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--gold-deep); margin-bottom: 14px;
+  font-size: .78rem; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px;
 }
-.eyebrow::before { content: ""; width: 26px; height: 2px; border-radius: 2px; background: var(--grad-gold); display: inline-block; }
+.eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--grad-gold); display: inline-block; }
 .text-gold {
   background: var(--grad-gold);
   -webkit-background-clip: text; background-clip: text; color: transparent;
@@ -138,150 +139,153 @@ h1, h2, h3, h4 { color: var(--ink); line-height: 1.34; letter-spacing: -0.02em; 
 .center { text-align: center; }
 
 /* ------------------------------------------------------------------ */
-/* 4. 카드(서피스) 컴포넌트                                            */
+/* 4. 글래스 컴포넌트 오버레이                                          */
 /* ------------------------------------------------------------------ */
 .glass {
   position: relative;
   background: var(--glass-bg);
+  background-image: var(--grad-glass);
   border: 1px solid var(--glass-border);
   border-radius: var(--r-lg);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
   box-shadow: var(--shadow-card);
 }
-.glass::after { content: none; }
+.glass::after {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(180deg, rgba(255,255,255,.10), transparent 30%);
+  mask: linear-gradient(180deg, #000, transparent 38%);
+}
 .card { padding: clamp(20px, 3vw, 30px); }
 
 /* ------------------------------------------------------------------ */
-/* 5. 헤더 / 네비 (상단 고정 CTA)                                      */
+/* 5. 헤더 / 네비                                                      */
 /* ------------------------------------------------------------------ */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: rgba(255, 255, 255, 0.86);
-  -webkit-backdrop-filter: blur(14px) saturate(140%);
-  backdrop-filter: blur(14px) saturate(140%);
+  background: rgba(7, 11, 29, 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
   border-bottom: 1px solid var(--glass-border);
 }
 .nav { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 64px; }
-.brand { display: flex; align-items: center; gap: 11px; font-weight: 800; color: var(--ink); letter-spacing: -.02em; }
+.brand { display: flex; align-items: center; gap: 11px; font-weight: 800; color: var(--t-hi); letter-spacing: -.02em; }
 .brand .mark {
   width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center;
-  background: var(--grad-gold); color: #fff; font-weight: 900; font-size: .95rem;
+  background: var(--grad-gold); color: #1a1305; font-weight: 900; font-size: .95rem;
   box-shadow: var(--glow-gold);
 }
 .brand .mark span { transform: translateY(-1px); }
-.brand small { color: var(--t-lo); font-weight: 600; }
 .nav-cta {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 9px 16px; border-radius: var(--r-pill);
-  background: var(--grad-gold); color: #fff; font-weight: 800; font-size: .92rem;
+  background: var(--grad-gold); color: #1a1305; font-weight: 800; font-size: .92rem;
   box-shadow: var(--glow-gold); white-space: nowrap;
 }
-.nav-cta:hover { filter: brightness(1.05); }
+.nav-cta:hover { filter: brightness(1.06); }
 
 /* ------------------------------------------------------------------ */
 /* 6. 히어로                                                           */
 /* ------------------------------------------------------------------ */
-.hero { position: relative; padding-block: clamp(44px, 8vw, 92px); overflow: hidden; }
+.hero { position: relative; padding-block: clamp(48px, 9vw, 104px); overflow: hidden; }
 .hero::before {
   content: ""; position: absolute; inset: -2px; z-index: -1;
-  background: radial-gradient(640px 360px at 82% 0%, rgba(47,111,237,.08), transparent 62%),
-              radial-gradient(520px 320px at 8% 10%, rgba(184,144,47,.08), transparent 60%);
+  background: radial-gradient(680px 380px at 80% 0%, rgba(111,227,255,.16), transparent 62%);
 }
-.hero h1 { font-size: var(--fs-hero); font-weight: 840; color: var(--ink); }
-.hero p.lead { font-size: clamp(1rem, 1.7vw, 1.15rem); color: var(--t-mid); max-width: 62ch; }
+.hero h1 { font-size: var(--fs-hero); font-weight: 840; }
+.hero p.lead { font-size: clamp(1rem, 1.7vw, 1.18rem); color: var(--t-mid); max-width: 60ch; }
 .hero-badges { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
 .badge {
   display: inline-flex; align-items: center; gap: 7px;
   padding: 7px 14px; border-radius: var(--r-pill);
-  background: #fff; border: 1px solid var(--glass-border);
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
   font-size: .84rem; color: var(--t-mid); font-weight: 600;
-  box-shadow: 0 4px 12px -8px rgba(22,33,61,.25);
 }
-.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+.badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--glow-cyan); box-shadow: 0 0 8px var(--glow-cyan); }
 
 .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 9px;
-  padding: 13px 22px; border-radius: var(--r-pill); font-weight: 800; font-size: 1rem;
-  border: 1px solid transparent; cursor: pointer; transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+  padding: 13px 24px; border-radius: var(--r-pill); font-weight: 800; font-size: 1rem;
+  border: 1px solid transparent; cursor: pointer; transition: transform .15s ease, filter .15s ease;
 }
 .btn:active { transform: translateY(1px); }
-.btn-gold { background: var(--grad-gold); color: #fff; box-shadow: var(--glow-gold); }
-.btn-gold:hover { filter: brightness(1.05); box-shadow: 0 14px 30px -12px rgba(184,144,47,.6); }
-.btn-ghost { background: #fff; border-color: var(--glass-border-2); color: var(--ink); box-shadow: var(--shadow-card); }
-.btn-ghost:hover { border-color: var(--gold-soft); color: var(--gold-deep); }
+.btn-gold { background: var(--grad-gold); color: #1a1305; box-shadow: var(--glow-gold); }
+.btn-gold:hover { filter: brightness(1.07); }
+.btn-ghost { background: var(--glass-bg); border-color: var(--glass-border-2); color: var(--t-hi); }
+.btn-ghost:hover { background: var(--glass-bg-2); }
 
 /* ------------------------------------------------------------------ */
-/* 7. 지역 버튼 그리드 (자치구) — 둥근 버튼형                          */
+/* 7. 지역 버튼 그리드 (자치구 / 행정동)                                */
 /* ------------------------------------------------------------------ */
 .area-grid {
   display: grid; gap: 12px;
-  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
 }
 .area-btn {
   position: relative; display: flex; align-items: center; justify-content: space-between; gap: 10px;
-  padding: 15px 18px; border-radius: var(--r-md);
-  background: #fff; border: 1px solid var(--glass-border);
-  color: var(--ink); font-weight: 700; font-size: .98rem;
-  box-shadow: 0 6px 16px -12px rgba(22,33,61,.3);
-  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+  padding: 15px 17px; border-radius: var(--r-sm);
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
+  color: var(--t-hi); font-weight: 700; font-size: .98rem;
+  transition: transform .16s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
 }
 .area-btn .sub { font-size: .76rem; color: var(--t-lo); font-weight: 500; display: block; margin-top: 2px; }
-.area-btn .arw { color: var(--gold); opacity: .7; transition: opacity .16s, transform .16s; }
+.area-btn .arw { color: var(--gold); opacity: .55; transition: opacity .16s, transform .16s; }
 .area-btn:hover {
   transform: translateY(-3px);
-  border-color: var(--gold-soft);
-  box-shadow: 0 18px 34px -18px rgba(22,33,61,.32);
+  border-color: rgba(232,201,122,.45);
+  background: var(--glass-bg-2);
+  box-shadow: 0 18px 38px -22px rgba(0,0,0,.8), 0 0 0 1px rgba(232,201,122,.25);
 }
 .area-btn:hover .arw { opacity: 1; transform: translateX(3px); }
 
-/* 행정동/관련 칩 — 둥근 버튼형 */
+/* 행정동 칩 (페이지 내부) */
 .chip-grid { display: flex; flex-wrap: wrap; gap: 9px; }
 .chip {
   display: inline-flex; align-items: center; gap: 6px;
-  padding: 9px 15px; border-radius: var(--r-pill);
-  background: #fff; border: 1px solid var(--glass-border);
+  padding: 8px 14px; border-radius: var(--r-pill);
+  background: var(--glass-bg); border: 1px solid var(--glass-border);
   color: var(--t-mid); font-size: .9rem; font-weight: 600;
-  box-shadow: 0 3px 10px -8px rgba(22,33,61,.25);
-  transition: border-color .15s, color .15s, transform .15s;
+  transition: border-color .15s, color .15s, background .15s;
 }
-.chip:hover { border-color: var(--gold-soft); color: var(--gold-deep); transform: translateY(-1px); }
-.chip[aria-disabled="true"] { cursor: default; }
+.chip:hover { border-color: rgba(232,201,122,.5); color: var(--champagne); background: var(--glass-bg-2); }
+.chip[aria-disabled="true"] { opacity: .85; cursor: default; }
 
 /* ------------------------------------------------------------------ */
-/* 8. 콘텐츠 본문 (정보형 톤)                                          */
+/* 8. 콘텐츠 본문 (구 페이지 / 가이드)                                  */
 /* ------------------------------------------------------------------ */
 .prose { max-width: 74ch; }
-.prose h2 { font-size: var(--fs-h2); margin-top: 2em; margin-bottom: .5em; }
+.prose h2 { font-size: var(--fs-h2); margin-top: 2.1em; margin-bottom: .5em; }
 .prose h2:first-child { margin-top: 0; }
-.prose h3 { font-size: var(--fs-h3); margin-top: 1.5em; margin-bottom: .35em; color: var(--gold-deep); }
-.prose p { margin-top: .85em; color: var(--t-mid); }
+.prose h3 { font-size: var(--fs-h3); margin-top: 1.5em; margin-bottom: .35em; color: var(--champagne); }
+.prose p { margin-top: .85em; }
 .prose ul { margin-top: .7em; padding-left: 0; list-style: none; }
-.prose ul li { position: relative; padding-left: 22px; margin-top: .5em; color: var(--t-mid); }
+.prose ul li { position: relative; padding-left: 22px; margin-top: .5em; }
 .prose ul li::before {
   content: ""; position: absolute; left: 4px; top: .72em;
   width: 6px; height: 6px; border-radius: 50%; background: var(--grad-gold);
 }
-.prose strong { color: var(--ink); font-weight: 700; }
-.prose a { color: var(--gold-deep); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(184,144,47,.4); }
-.prose a:hover { text-decoration-color: var(--gold); }
+.prose strong { color: var(--t-hi); font-weight: 700; }
 
+/* 본문 옆/위 H1 */
 .page-head h1 { font-size: var(--fs-h1); }
 .breadcrumb { display: flex; flex-wrap: wrap; gap: 6px; font-size: .82rem; color: var(--t-lo); margin-bottom: 14px; }
-.breadcrumb a:hover { color: var(--gold-deep); }
+.breadcrumb a:hover { color: var(--gold); }
 .breadcrumb .sep { opacity: .5; }
 
+/* 정보 카드 그리드 */
 .info-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
-.info-card h3 { color: var(--gold-deep); font-size: 1.02rem; margin-bottom: 6px; }
+.info-card h3 { color: var(--champagne); font-size: 1.02rem; margin-bottom: 6px; }
 .info-card p { font-size: .92rem; color: var(--t-mid); }
 
 /* FAQ */
 .faq details {
   border: 1px solid var(--glass-border); border-radius: var(--r-md);
-  background: #fff; padding: 4px 18px; margin-top: 12px;
-  box-shadow: 0 6px 16px -14px rgba(22,33,61,.3);
+  background: var(--glass-bg); padding: 4px 18px; margin-top: 12px;
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
 }
 .faq summary {
-  cursor: pointer; list-style: none; padding: 14px 0; font-weight: 700; color: var(--ink);
+  cursor: pointer; list-style: none; padding: 14px 0; font-weight: 700; color: var(--t-hi);
   display: flex; justify-content: space-between; gap: 12px; align-items: center;
 }
 .faq summary::-webkit-details-marker { display: none; }
@@ -292,7 +296,7 @@ h1, h2, h3, h4 { color: var(--ink); line-height: 1.34; letter-spacing: -0.02em; 
 /* E-E-A-T 저자 박스 */
 .author-box { display: grid; gap: 8px; font-size: .88rem; }
 .author-box .row { display: flex; gap: 10px; }
-.author-box .row .k { color: var(--gold-deep); min-width: 96px; font-weight: 700; }
+.author-box .row .k { color: var(--gold); min-width: 96px; font-weight: 700; }
 .author-box .row .v { color: var(--t-mid); }
 
 /* ------------------------------------------------------------------ */
@@ -300,52 +304,49 @@ h1, h2, h3, h4 { color: var(--ink); line-height: 1.34; letter-spacing: -0.02em; 
 /* ------------------------------------------------------------------ */
 .cta-panel {
   position: relative; overflow: hidden; text-align: center;
-  padding: clamp(30px, 5vw, 54px);
-  background: linear-gradient(180deg, #fffdf7, #fff);
-  border-color: var(--gold-soft);
+  padding: clamp(30px, 5vw, 56px);
 }
 .cta-panel::before {
-  content: ""; position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(420px 220px at 50% -10%, rgba(184,144,47,.14), transparent 60%);
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(420px 220px at 50% -10%, rgba(232,201,122,.22), transparent 60%);
 }
-.cta-panel > * { position: relative; z-index: 1; }
 .cta-panel .phone {
   font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 880; letter-spacing: .01em;
   display: inline-block; margin: 10px 0 4px;
 }
 
-/* 모바일 고정 예약 바 */
+/* 떠 있는 모바일 예약 바 */
 .book-bar {
   position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%);
   z-index: 60; width: min(100% - 28px, 460px);
   display: flex; gap: 10px; padding: 10px; border-radius: var(--r-pill);
-  background: rgba(255,255,255,.92); border: 1px solid var(--glass-border-2);
-  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
-  box-shadow: 0 18px 40px -18px rgba(22,33,61,.4);
+  background: rgba(7,11,29,.82); border: 1px solid var(--glass-border-2);
+  -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
+  box-shadow: 0 22px 50px -20px rgba(0,0,0,.85);
 }
 .book-bar a { flex: 1; text-align: center; padding: 12px; border-radius: var(--r-pill); font-weight: 800; }
-.book-bar .call { background: var(--grad-gold); color: #fff; }
-.book-bar .info { background: #fff; color: var(--ink); border: 1px solid var(--glass-border); }
+.book-bar .call { background: var(--grad-gold); color: #1a1305; }
+.book-bar .info { background: var(--glass-bg); color: var(--t-hi); border: 1px solid var(--glass-border); }
 
 /* ------------------------------------------------------------------ */
 /* 10. 푸터                                                            */
 /* ------------------------------------------------------------------ */
 .site-footer {
-  margin-top: clamp(40px, 7vw, 78px); padding-block: 46px 120px;
+  margin-top: clamp(40px, 7vw, 80px); padding-block: 46px 120px;
   border-top: 1px solid var(--glass-border);
-  background: linear-gradient(180deg, #fff, var(--c-bg-2));
+  background: linear-gradient(180deg, transparent, rgba(4,6,15,.6));
 }
 .footer-grid { display: grid; gap: 28px; grid-template-columns: 1.4fr 1fr 1fr; }
-.site-footer h4 { color: var(--ink); font-size: .95rem; margin-bottom: 12px; }
+.site-footer h4 { color: var(--t-hi); font-size: .95rem; margin-bottom: 12px; }
 .site-footer a { color: var(--t-lo); font-size: .9rem; }
-.site-footer a:hover { color: var(--gold-deep); }
+.site-footer a:hover { color: var(--gold); }
 .footer-links { display: grid; gap: 8px; }
 .footer-bottom {
   margin-top: 32px; padding-top: 22px; border-top: 1px solid var(--glass-border);
   display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between;
   font-size: .82rem; color: var(--t-faint);
 }
-.footer-note { font-size: .82rem; color: var(--t-lo); max-width: 52ch; }
+.footer-note { font-size: .82rem; color: var(--t-faint); max-width: 52ch; }
 
 /* ------------------------------------------------------------------ */
 /* 11. 반응형                                                          */
@@ -354,7 +355,7 @@ h1, h2, h3, h4 { color: var(--ink); line-height: 1.34; letter-spacing: -0.02em; 
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 600px) {
-  .area-grid { grid-template-columns: repeat(2, 1fr); }
+  .area-grid { grid-template-columns: repeat(auto-fill, minmax(46%, 1fr)); }
   .footer-grid { grid-template-columns: 1fr; }
   .nav .brand small { display: none; }
 }

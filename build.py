@@ -72,7 +72,7 @@ def head(title, desc, canonical, schema_blocks, extra_keywords=""):
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{esc(og_img)}">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#070b1d">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/style.css">
