@@ -496,6 +496,35 @@ def author_box(district_name=None):
 </section>"""
 
 
+def pricing(detail_url="/guide/booking/"):
+    tel = esc(SITE["phone_tel"])
+    cards = [
+        ("60분 코스", "90,000", "60분", "기본 컨디션·릴렉스 케어", False),
+        ("90분 코스", "150,000", "90분", "아로마 포함 추천 구성", True),
+        ("120분 코스", "180,000", "120분", "전신 집중 프리미엄 케어", False),
+    ]
+    items = ""
+    for title, amt, dur, desc, feat in cards:
+        badge = '<span class="price-badge">추천</span>' if feat else ""
+        btn = "btn-gold" if feat else "btn-ghost"
+        items += f"""<div class="price-card{' featured' if feat else ''}">{badge}
+      <h3>{esc(title)}</h3>
+      <div class="price-amt"><strong>{esc(amt)}</strong><span>원</span></div>
+      <div class="price-dur">{esc(dur)}</div>
+      <p class="price-desc">{esc(desc)}</p>
+      <a class="btn {btn} price-btn" href="tel:{tel}">예약 문의</a>
+    </div>"""
+    return f"""<section class="section" id="pricing">
+  <div class="wrap">
+    <div class="eyebrow">요금 안내</div>
+    <h2>코스별 기본 요금</h2>
+    <p class="muted" style="max-width:62ch">60·90·120분 코스별 기본 요금입니다. 숨겨진 추가 비용 없이 투명하게 안내합니다.</p>
+    <div class="price-grid">{items}</div>
+    <p class="muted price-note">지역·예약 시간대·이동 거리에 따라 상담 시 최종 확인됩니다. <a href="{esc(detail_url)}">상세 요금 안내 보기 →</a></p>
+  </div>
+</section>"""
+
+
 def cta_panel(heading="지금 전화로 바로 예약하세요"):
     return f"""<section class="section">
   <div class="glass card cta-panel">
@@ -594,6 +623,8 @@ def render_main():
     </div>
   </div>
 </section>
+
+{pricing()}
 
 <section class="section" id="intro">
   <div class="wrap prose">
@@ -757,6 +788,8 @@ def render_district(d):
   </div>
 </section>
 
+{pricing()}
+
 <section class="section">
   <div class="wrap prose">
     <h2>{esc(name)} 생활권 안내</h2>
@@ -915,6 +948,8 @@ def render_station(s):
     </div>
   </div>
 </section>
+
+{pricing()}
 
 <section class="section">
   <div class="wrap prose">
@@ -1078,6 +1113,8 @@ def render_station_basic(x):
   </div>
 </section>
 
+{pricing()}
+
 <section class="section">
   <div class="wrap prose">
     <h2>{esc(name)} 주변 안내</h2>
@@ -1182,6 +1219,8 @@ def render_zone(z):
     </div>
   </div>
 </section>
+
+{pricing()}
 
 <section class="section">
   <div class="wrap prose">

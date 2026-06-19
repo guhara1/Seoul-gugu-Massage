@@ -601,3 +601,36 @@ h1, h2, h3, h4 { color: var(--t-hi); line-height: 1.32; letter-spacing: -0.02em;
 .line-group > summary::before { content: "▸"; color: var(--gold); transition: transform .15s ease; }
 .line-group[open] > summary::before { transform: rotate(90deg); }
 .line-group > summary .muted { font-weight: 500; font-size: .85rem; }
+
+/* ------------------------------------------------------------------ */
+/* 13. 코스별 요금표                                                    */
+/* ------------------------------------------------------------------ */
+.price-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: clamp(14px, 2vw, 22px); margin-top: 24px; align-items: stretch;
+}
+.price-card {
+  position: relative; display: flex; flex-direction: column; gap: 9px;
+  padding: clamp(22px, 3vw, 30px); text-align: center;
+  background: var(--glass-bg); background-image: var(--grad-glass);
+  border: 1px solid var(--glass-border); border-radius: var(--r-lg);
+  box-shadow: var(--shadow-card);
+}
+.price-card.featured { border-color: var(--gold-deep); box-shadow: var(--glow-gold); }
+.price-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: var(--grad-gold); color: #1a1305; font-weight: 800; font-size: .8rem;
+  padding: 5px 16px; border-radius: var(--r-pill); box-shadow: var(--glow-gold); white-space: nowrap;
+}
+.price-card h3 { color: var(--t-hi); font-size: 1.1rem; }
+.price-amt { display: flex; align-items: baseline; justify-content: center; gap: 4px; margin-top: 4px; }
+.price-amt strong {
+  font-size: clamp(1.9rem, 4vw, 2.4rem); font-weight: 900; letter-spacing: -.02em;
+  background: var(--grad-gold); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.price-amt span { color: var(--t-lo); font-size: .95rem; }
+.price-dur { color: var(--gold-soft); font-weight: 700; font-size: .9rem; }
+.price-desc { color: var(--t-mid); font-size: .92rem; margin-bottom: 4px; }
+.price-btn { margin-top: auto; width: 100%; justify-content: center; }
+.price-note { margin-top: 18px; font-size: .85rem; }
+@media (max-width: 720px) { .price-grid { grid-template-columns: 1fr; } }
