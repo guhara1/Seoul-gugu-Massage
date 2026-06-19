@@ -277,6 +277,30 @@ def cta_panel(heading="지금 전화로 바로 예약하세요"):
 # --------------------------------------------------------------------- #
 # 메인 페이지                                                            #
 # --------------------------------------------------------------------- #
+TOC_SCRIPT = """<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc-nav a'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var targets = [];
+  links.forEach(function (a) {
+    var el = document.getElementById(a.getAttribute('href').slice(1));
+    if (el) targets.push(el);
+  });
+  function setActive(id) {
+    links.forEach(function (a) {
+      var on = a.getAttribute('href') === '#' + id;
+      a.classList.toggle('is-active', on);
+      if (on) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+    });
+  }
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) { if (e.isIntersecting) setActive(e.target.id); });
+  }, { rootMargin: '-82px 0px -65% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+</script>"""
+
+
 def render_main():
     url = "/"
     title = "서울 출장마사지｜25개 자치구 홈타이 지역별 예약 안내"
@@ -326,9 +350,29 @@ def render_main():
   </div>
 </section>
 
-<section class="section" id="dong-select">
-  <div class="wrap prose">
-    <h2>자치구 페이지에서 대표 행정동을 선택하는 방식</h2>
+<section class="section" id="guide">
+  <div class="wrap">
+    <div class="eyebrow">이용 안내</div>
+    <h2 class="guide-title">지역 선택과 예약 안내 한눈에 보기</h2>
+    <div class="toc-layout">
+      <aside class="toc" aria-label="이 페이지 목차">
+        <p class="toc-head">목차</p>
+        <nav class="toc-nav">
+          <ol>
+            <li><a href="#intro">먼저 확인할 기준</a></li>
+            <li><a href="#districts">자치구별 지역 보기</a></li>
+            <li><a href="#dong-rep">대표 행정동 선택 방식</a></li>
+            <li><a href="#dong-merge">번호 동 통합 이유</a></li>
+            <li><a href="#living">서울 주요 생활권</a></li>
+            <li><a href="#hometai">홈타이 예약 전 확인</a></li>
+            <li><a href="#policy">사이트 운영 기준</a></li>
+            <li><a href="#order">이용 순서·관련 페이지</a></li>
+          </ol>
+        </nav>
+      </aside>
+
+      <div class="prose toc-content">
+    <h2 id="dong-rep">자치구 페이지에서 대표 행정동을 선택하는 방식</h2>
     <p>자치구 버튼을 선택하면 해당 구 상세 페이지로 이동하고, 본문 중간에서 그 구의 대표 행정동 버튼을 다시 고를 수 있습니다. 예를 들어 강남구 페이지에서는 신사동, 압구정동, 청담동, 논현동, 삼성동, 역삼동, 대치동 같은 대표 행정동을 버튼으로 보여주고, 송파구 페이지에서는 잠실동, 문정동, 가락동, 방이동 등을 보여줍니다. 이렇게 두 단계로 나눈 이유는 사용자가 본인 위치를 빠르게 찾고, 각 동의 생활권 차이를 구분해 확인할 수 있도록 하기 위함입니다. 구를 먼저 고르고 그다음 가까운 동이나 역세권을 선택하는 흐름이 가장 직관적입니다.</p>
 
     <h2 id="dong-merge">번호 동을 대표동으로 통합하는 이유</h2>
@@ -343,15 +387,19 @@ def render_main():
     <h2 id="policy">사이트 운영 기준</h2>
     <p>이 사이트의 모든 페이지는 사용자가 지역을 선택하고 예약 전 필요한 정보를 확인하도록 돕는 것을 목적으로 작성합니다. 지역명만 바꾼 반복 문장을 피하고, 각 구와 행정동의 생활권 차이가 실제로 다르게 느껴지도록 구성했습니다. 또한 불법·선정적 표현이나 허위 후기, 가짜 체험담을 사용하지 않으며, 방문형 관리·예약 가능 지역·이용 전 확인사항·개인정보 처리 기준·추가 이동비 확인처럼 신뢰할 수 있는 정보형 문장을 사용합니다. 정상적인 방문 관리 안내 사이트로서 필요한 정보를 분명하게 제공하는 것을 기준으로 삼습니다.</p>
 
-    <h2>이용 순서와 함께 볼 페이지</h2>
+    <h2 id="order">이용 순서와 함께 볼 페이지</h2>
     <p>이용 순서는 간단합니다. 먼저 본인이 있는 자치구를 선택하고, 그다음 대표 행정동 또는 가까운 역세권을 고른 뒤, <a href="/guide/before-use/">예약 전 확인사항</a>을 함께 확인하면 됩니다. <a href="/guide/hometai/">홈타이 이용 가이드</a>와 <a href="/privacy/">개인정보 처리방침</a>도 참고하시면 예약 과정을 더 분명하게 이해할 수 있습니다.</p>
     <div class="chip-grid" style="margin-top:18px">
       <a class="chip" href="#districts">자치구별 방문 가능 지역 보기</a>
       <a class="chip" href="/guide/before-use/">예약 전 확인사항 보기</a>
       <a class="chip" href="/guide/hometai/">홈타이 이용 기준 확인</a>
     </div>
+      </div>
+    </div>
   </div>
 </section>
+
+{TOC_SCRIPT}
 
 {cta_panel()}
 {author_box()}
