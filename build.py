@@ -49,9 +49,10 @@ def area_url(slug):
 # --------------------------------------------------------------------- #
 # 공통 레이아웃                                                          #
 # --------------------------------------------------------------------- #
-def head(title, desc, canonical, schema_blocks, extra_keywords=""):
+def head(title, desc, canonical, schema_blocks, extra_keywords="", noindex=False):
     kw = ", ".join([KEYWORDS_MAIN] + KEYWORDS_SUB + ([extra_keywords] if extra_keywords else []))
     og_img = BASE + SITE["og_image"]
+    robots = "noindex, follow" if noindex else "index, follow, max-image-preview:large"
     schema_json = "\n".join(
         f'<script type="application/ld+json">{json.dumps(b, ensure_ascii=False)}</script>'
         for b in schema_blocks
@@ -64,7 +65,7 @@ def head(title, desc, canonical, schema_blocks, extra_keywords=""):
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <meta name="keywords" content="{esc(kw)}">
-<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="robots" content="{robots}">
 <meta name="author" content="{esc(SITE['author'])}">
 <link rel="canonical" href="{esc(BASE + canonical)}">
 <meta property="og:type" content="website">
@@ -348,8 +349,8 @@ NAV_SCRIPT = """<script>
 </script>"""
 
 
-def page(title, desc, canonical, body, schema_blocks, extra_keywords=""):
-    return f"""{head(title, desc, canonical, schema_blocks, extra_keywords)}
+def page(title, desc, canonical, body, schema_blocks, extra_keywords="", noindex=False):
+    return f"""{head(title, desc, canonical, schema_blocks, extra_keywords, noindex)}
 <body>
 {header(canonical)}
 <main id="main">
@@ -1107,7 +1108,7 @@ def render_station_basic(x):
         image_object(f"{name} 출장마사지·홈타이 역세권 안내"),
     ]
     write(["seoul", f"{slug}-chuljangmassage"],
-          page(title, desc, url, body, schema, extra_keywords=f"{name} 출장마사지, {name} 홈타이"))
+          page(title, desc, url, body, schema, extra_keywords=f"{name} 출장마사지, {name} 홈타이", noindex=True))
 
 
 # --------------------------------------------------------------------- #
@@ -1391,10 +1392,10 @@ def render_guides():
 # sitemap + robots + Cloudflare 설정                                     #
 # --------------------------------------------------------------------- #
 def render_sitemap():
+    # 색인 대상만 사이트맵에 포함 (basic 역세권은 noindex라 제외)
     urls = ["/"]
     urls += [district_url(d["slug"]) for d in DISTRICTS]
     urls += [area_url(s["slug"]) for s in STATIONS]
-    urls += [area_url(x["slug"]) for x in BASIC_STATIONS]
     urls += [area_url(z["slug"]) for z in ZONES]
     urls += [g["url"] for g in GUIDE_PAGES]
     items = "".join(
