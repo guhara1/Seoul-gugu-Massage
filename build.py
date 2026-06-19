@@ -540,7 +540,7 @@ def render_main():
     for d in DISTRICTS:
         rep = "·".join(s.replace("역", "") for s in d["stations"][:3])
         btns.append(f"""<a class="area-btn" href="{esc(district_url(d['slug']))}">
-  <span>{esc(d['name'])} 출장마사지<span class="sub">{esc(rep)} 생활권</span></span>
+  <span>{esc(d['name'])}<span class="sub">{esc(rep)} 생활권</span></span>
   <span class="arw">→</span>
 </a>""")
     grid = '<div class="area-grid">' + "".join(btns) + "</div>"
