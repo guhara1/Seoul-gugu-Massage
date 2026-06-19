@@ -80,22 +80,112 @@ def head(title, desc, canonical, schema_blocks, extra_keywords=""):
 </head>"""
 
 
-def header():
-    nav_links = "".join(
-        f'<a href="{esc(g["url"])}">{esc(g["label"])}</a>' for g in GUIDE_PAGES[:3]
-    )
+# 역세권·생활권 메뉴 → 해당 정보가 담긴 자치구 페이지로 매핑(전용 페이지 없음)
+STATION_NAV = [
+    ("강남역", "gangnam-gu"), ("역삼역", "gangnam-gu"), ("삼성역", "gangnam-gu"),
+    ("선릉역", "gangnam-gu"), ("잠실역", "songpa-gu"), ("문정역", "songpa-gu"),
+    ("홍대입구역", "mapo-gu"), ("합정역", "mapo-gu"), ("여의도역", "yeongdeungpo-gu"),
+    ("영등포역", "yeongdeungpo-gu"), ("서울역", "yongsan-gu"), ("용산역", "yongsan-gu"),
+    ("건대입구역", "gwangjin-gu"), ("신촌역", "seodaemun-gu"), ("사당역", "dongjak-gu"),
+    ("교대역", "seocho-gu"), ("고속터미널역", "seocho-gu"), ("왕십리역", "seongdong-gu"),
+    ("종로3가역", "jongno-gu"), ("노원역", "nowon-gu"), ("김포공항역", "gangseo-gu"),
+]
+ZONE_NAV = [
+    ("강남역 생활권", "gangnam-gu"), ("잠실·송파 생활권", "songpa-gu"),
+    ("홍대·합정 생활권", "mapo-gu"), ("여의도 업무지구", "yeongdeungpo-gu"),
+    ("서울역·용산 생활권", "yongsan-gu"), ("종로·광화문 생활권", "jongno-gu"),
+    ("성수·왕십리 생활권", "seongdong-gu"), ("구로디지털단지", "guro-gu"),
+    ("김포공항·마곡 생활권", "gangseo-gu"), ("노원·상계 생활권", "nowon-gu"),
+]
+
+
+def _nav_active(canonical):
+    """canonical URL로 상단 메뉴 활성 키 결정."""
+    c = canonical or "/"
+    if c == "/":
+        return "home"
+    if c.startswith("/seoul/"):
+        return "districts"
+    if c.startswith("/guide/booking"):
+        return "reservation"
+    if c.startswith("/guide/before-use"):
+        return "precautions"
+    if c.startswith("/guide/hometai"):
+        return "service"
+    if c.startswith("/support") or c.startswith("/privacy"):
+        return "support"
+    return ""
+
+
+def header(canonical="/"):
+    active = _nav_active(canonical)
+
+    def sub(items):
+        return "<ul class=\"sub-menu\">" + "".join(
+            f'<li><a href="{esc(u)}">{esc(label)}</a></li>' for label, u in items
+        ) + "</ul>"
+
+    district_sub = [(d["name"], district_url(d["slug"])) for d in DISTRICTS]
+    station_sub = [(name, district_url(slug)) for name, slug in STATION_NAV]
+    station_sub.append(("＋ 전체 자치구 보기", "/#districts"))
+    zone_sub = [(name, district_url(slug)) for name, slug in ZONE_NAV]
+
+    # (key, 라벨, 대표 링크, 서브메뉴 or None)
+    menu = [
+        ("home", "홈", "/", None),
+        ("service", "출장마사지 안내", "/#intro", [
+            ("서비스 안내", "/#intro"),
+            ("전지역 방문 가능", "/#districts"),
+            ("예약 전 확인 기준", "/#order"),
+            ("홈타이 이용 가이드", "/guide/hometai/"),
+        ]),
+        ("districts", "자치구별 안내", "/#districts", district_sub),
+        ("stations", "역세권별 안내", "/#districts", station_sub),
+        ("zones", "생활권별 안내", "/#districts", zone_sub),
+        ("reservation", "예약안내", "/guide/booking/", [
+            ("예약 방법", "/guide/booking/#how"),
+            ("예약 가능 시간", "/guide/booking/#hours"),
+            ("추가 이동비 안내", "/guide/booking/#fee"),
+            ("결제·취소 안내", "/guide/booking/#pay"),
+        ]),
+        ("precautions", "이용 전 확인사항", "/guide/before-use/", [
+            ("이용 전 확인 기준", "/guide/before-use/#check"),
+            ("건전한 이용 안내", "/guide/before-use/#clean"),
+            ("홈타이 이용 가이드", "/guide/hometai/"),
+        ]),
+        ("support", "고객센터", "/support/", [
+            ("전화 문의", "/support/#contact"),
+            ("운영 안내", "/support/#support-hours"),
+            ("개인정보 처리방침", "/privacy/"),
+        ]),
+    ]
+
+    items_html = ""
+    for key, label, link, subitems in menu:
+        cls = "nav-item"
+        if subitems:
+            cls += " has-sub"
+        if key == active:
+            cls += " is-active"
+        items_html += f'<li class="{cls}"><a href="{esc(link)}">{esc(label)}</a>'
+        if subitems:
+            items_html += sub(subitems)
+        items_html += "</li>"
+
     return f"""<a class="skip-link" href="#main">본문 바로가기</a>
 <header class="site-header">
-  <div class="wrap nav">
-    <a class="brand" href="/">
-      <span class="mark"><span>G</span></span>
-      <span>{esc(SITE['brand'])} <small class="muted">서울 출장마사지</small></span>
-    </a>
-    <nav aria-label="주요 메뉴" style="display:flex;align-items:center;gap:18px">
-      <span class="muted" style="display:none">{nav_links}</span>
-      <a class="nav-cta" href="tel:{esc(SITE['phone_tel'])}">📞 전화예약 {esc(SITE['phone'])}</a>
-    </nav>
+  <div class="header-accent" aria-hidden="true"></div>
+  <div class="header-top">
+    <div class="header-inner">
+      <a class="brand" href="/"><span class="brand-mark">G</span> <span class="brand-text">{esc(SITE['brand'])}</span></a>
+      <p class="header-tagline"><span class="tag-gem">◆</span> 서울특별시 전지역 방문 관리 <span class="tag-gem">◆</span> 24시간 상담</p>
+      <a class="header-call" href="tel:{esc(SITE['phone_tel'])}"><span class="call-label">예약전화</span> {esc(SITE['phone'])}</a>
+      <button class="nav-toggle" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
   </div>
+  <nav class="main-nav" aria-label="주 메뉴">
+    <div class="nav-inner"><ul class="nav-list">{items_html}</ul></div>
+  </nav>
 </header>"""
 
 
@@ -137,15 +227,42 @@ def footer():
 </footer>"""
 
 
+NAV_SCRIPT = """<script>
+(function () {
+  var toggle = document.querySelector('.nav-toggle');
+  var nav = document.querySelector('.main-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var open = nav.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    nav.querySelectorAll('.nav-item.has-sub > a').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        if (window.innerWidth > 920) return;
+        var item = link.parentElement;
+        if (!item.classList.contains('sub-open')) {
+          e.preventDefault();
+          nav.querySelectorAll('.sub-open').forEach(function (el) { el.classList.remove('sub-open'); });
+          item.classList.add('sub-open');
+        }
+      });
+    });
+  }
+})();
+</script>"""
+
+
 def page(title, desc, canonical, body, schema_blocks, extra_keywords=""):
     return f"""{head(title, desc, canonical, schema_blocks, extra_keywords)}
 <body>
-{header()}
+{header(canonical)}
 <main id="main">
 {body}
 </main>
 {footer()}
 {book_bar()}
+{NAV_SCRIPT}
 </body>
 </html>"""
 
@@ -585,7 +702,7 @@ def render_guides():
         "서울 출장마사지·홈타이 예약 절차, 가능 시간, 추가 이동비, 취소 기준을 안내합니다.",
         [("서울 출장마사지", H), ("예약 안내", "/guide/booking/")],
         f"""
-        <h2>예약 절차</h2>
+        <h2 id="how">예약 절차</h2>
         <p>서울 출장마사지·홈타이 예약은 전화로 진행됩니다. 전화예약 번호 <a href="tel:{esc(SITE['phone_tel'])}"><strong>{esc(SITE['phone'])}</strong></a>로 연락해 방문 희망 지역(자치구·행정동 또는 가까운 역), 희망 시간, 인원, 위치 유형(아파트 단지·오피스텔·주택 등)을 알려주시면 가능 여부를 안내해 드립니다.</p>
         <ul>
           <li><strong>1단계</strong> 전화로 희망 지역·시간 문의</li>
@@ -593,11 +710,11 @@ def render_guides():
           <li><strong>3단계</strong> 위치(역 출구·건물명·동) 전달 및 예약 확정</li>
           <li><strong>4단계</strong> 방문 및 이용</li>
         </ul>
-        <h2>예약 가능 시간</h2>
+        <h2 id="hours">예약 가능 시간</h2>
         <p>예약 가능 시간은 지역과 시간대에 따라 달라질 수 있습니다. 서울은 거리보다 시간대별 교통 상황이 이동 시간에 더 큰 영향을 주므로, 강남·여의도·홍대·잠실·서울역 등 혼잡 권역은 희망 시간에 여유를 두고 예약하시길 권장합니다.</p>
-        <h2>추가 이동비 기준</h2>
+        <h2 id="fee">추가 이동비 기준</h2>
         <p>기본 안내 외에 거리·심야 시간대에 따라 추가 이동비가 발생할 수 있습니다. 정확한 금액은 위치와 시간대를 기준으로 예약 시 미리 안내해 드립니다.</p>
-        <h2>결제 및 취소 기준</h2>
+        <h2 id="pay">결제 및 취소 기준</h2>
         <p>결제 방식과 취소·변경 기준은 예약 확정 단계에서 안내됩니다. 예약 변경이나 취소가 필요한 경우 가능한 빨리 전화로 알려주시면 원활하게 조정할 수 있습니다.</p>
         """,
         faqs=[
@@ -615,7 +732,7 @@ def render_guides():
         "서울 출장마사지·홈타이 이용 전 방문 지역, 시간, 위치 전달, 주의사항을 확인하세요.",
         [("서울 출장마사지", H), ("이용 전 확인사항", "/guide/before-use/")],
         """
-        <h2>이용 전 꼭 확인하세요</h2>
+        <h2 id="check">이용 전 꼭 확인하세요</h2>
         <p>원활한 방문 관리를 위해 예약 전 아래 사항을 확인해 주세요. 정확한 정보를 전달할수록 이동 시간이 줄고 안내가 빨라집니다.</p>
         <h3>방문 지역과 위치</h3>
         <ul>
@@ -633,7 +750,7 @@ def render_guides():
           <li>편안하게 이용할 수 있는 공간과 환경을 미리 준비해 주세요.</li>
           <li>예약 인원과 이용 시간을 정확히 전달해 주세요.</li>
         </ul>
-        <h2>건전한 이용 안내</h2>
+        <h2 id="clean">건전한 이용 안내</h2>
         <p>본 사이트와 안내는 합법적이고 건전한 방문 관리 서비스를 전제로 합니다. 불법·선정적 요청은 제공되지 않으며, 모든 안내는 예약 전 확인 정보를 돕기 위한 것입니다.</p>
         """,
         extra_kw="이용 전 확인사항",
@@ -674,7 +791,7 @@ def render_guides():
         "서울 출장마사지·홈타이 예약 문의와 안내는 전화 고객센터로 연락하세요.",
         [("서울 출장마사지", H), ("고객센터", "/support/")],
         f"""
-        <h2>전화 문의</h2>
+        <h2 id="contact">전화 문의</h2>
         <p>예약·변경·취소, 방문 가능 지역 문의는 전화로 안내해 드립니다.</p>
         <p style="font-size:1.6rem;font-weight:800"><a class="text-gold" href="tel:{esc(SITE['phone_tel'])}">{esc(SITE['phone'])}</a></p>
         <h2>문의 시 알려주시면 좋은 정보</h2>
@@ -683,7 +800,7 @@ def render_guides():
           <li>희망 날짜와 시간</li>
           <li>위치 유형(아파트 단지·오피스텔·주택 등)</li>
         </ul>
-        <h2>운영 안내</h2>
+        <h2 id="support-hours">운영 안내</h2>
         <p>전화 연결이 어려운 시간에는 잠시 후 다시 시도해 주시면 순차적으로 안내해 드립니다. 예약 변경·취소는 가능한 빨리 알려주시면 원활하게 조정됩니다.</p>
         """,
         extra_kw="고객센터, 출장마사지 문의",
