@@ -1,3 +1,10 @@
+/assets/css/style.css
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+/assets/img/favicon.svg
+  Content-Type: image/svg+xml
+/assets/img/og-cover.svg
+  Content-Type: image/svg+xml
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 /*

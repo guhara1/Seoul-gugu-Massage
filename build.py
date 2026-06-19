@@ -330,6 +330,10 @@ def footer():
         <div class="footer-links">{explore_links}</div>
       </nav>
     </div>
+    <div class="footer-cta" aria-label="제휴 및 문의">
+      <a class="fbtn fbtn-orange" href="https://t.me/googleseolab" target="_blank" rel="noopener noreferrer nofollow">📣 광고 문의</a>
+      <a class="fbtn fbtn-green" href="https://t.me/googleseolab" target="_blank" rel="noopener noreferrer nofollow">💻 웹사이트 제작 문의</a>
+    </div>
     <p class="footer-disclaimer">본 사이트는 서울 지역 방문 관리(출장마사지·홈타이) 예약 안내를 제공하는 정보 사이트로, 모든 콘텐츠는 예약 전 참고용 정보입니다. 합법적이고 건전한 서비스 이용을 전제로 하며, 불법·선정적 내용이나 허위 후기를 제공하지 않습니다.</p>
     <div class="footer-bottom">
       <span>© 2026 {esc(SITE['brand'])}. All rights reserved.</span>
@@ -1433,8 +1437,15 @@ def render_cloudflare():
     redirects = "/seoul-chuljangmassage/    /    301\n/seoul-chuljangmassage    /    301\n"
     with open(os.path.join(ROOT, "_redirects"), "w", encoding="utf-8") as f:
         f.write(redirects)
-    # 정적 자산 장기 캐시 + 기본 보안 헤더
+    # 정적 자산: 명시적 Content-Type(MIME 오인+nosniff로 인한 미적용 방지) + 장기 캐시
     headers = (
+        "/assets/css/style.css\n"
+        "  Content-Type: text/css; charset=utf-8\n"
+        "  Cache-Control: public, max-age=31536000, immutable\n"
+        "/assets/img/favicon.svg\n"
+        "  Content-Type: image/svg+xml\n"
+        "/assets/img/og-cover.svg\n"
+        "  Content-Type: image/svg+xml\n"
         "/assets/*\n"
         "  Cache-Control: public, max-age=31536000, immutable\n"
         "/*\n"

@@ -431,6 +431,23 @@ h1, h2, h3, h4 { color: var(--t-hi); line-height: 1.32; letter-spacing: -0.02em;
 }
 .footer-contact strong { color: var(--t-mid); font-weight: 700; margin-right: 6px; }
 .footer-contact .nav-cta { margin-top: 8px; width: fit-content; }
+.footer-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 30px; }
+.fbtn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 24px; border-radius: var(--r-pill);
+  font-weight: 800; font-size: .95rem; letter-spacing: -.01em;
+  transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+}
+.fbtn-orange {
+  background: linear-gradient(135deg, #ffb24d 0%, #ff7a1a 50%, #ff5e00 100%);
+  color: #2a1500; box-shadow: 0 8px 24px -6px rgba(255,110,0,.55), inset 0 1px 0 rgba(255,255,255,.4);
+}
+.fbtn-green {
+  background: linear-gradient(135deg, #c6ff4d 0%, #5cff2e 50%, #16e000 100%);
+  color: #0a2200; box-shadow: 0 8px 24px -6px rgba(57,230,0,.55), inset 0 1px 0 rgba(255,255,255,.45);
+}
+.fbtn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+.fbtn:active { transform: translateY(0); }
 .footer-disclaimer {
   margin-top: 34px; padding-top: 20px; border-top: 1px solid var(--glass-border);
   font-size: .8rem; line-height: 1.7; color: var(--t-faint); max-width: 96ch;
