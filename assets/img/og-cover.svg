@@ -1,32 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#070b1d"/>
-      <stop offset="0.55" stop-color="#0c1230"/>
-      <stop offset="1" stop-color="#04060f"/>
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.6" stop-color="#f5f7fc"/>
+      <stop offset="1" stop-color="#eef2f9"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.8" cy="0.05" r="0.7">
-      <stop offset="0" stop-color="#5b8cff" stop-opacity="0.30"/>
-      <stop offset="1" stop-color="#5b8cff" stop-opacity="0"/>
+    <radialGradient id="glow" cx="0.82" cy="0.04" r="0.7">
+      <stop offset="0" stop-color="#2f6fed" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#2f6fed" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#f4e6c1"/>
-      <stop offset="0.5" stop-color="#e8c97a"/>
-      <stop offset="1" stop-color="#b9933f"/>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e7cf8e"/>
+      <stop offset="0.5" stop-color="#b8902f"/>
+      <stop offset="1" stop-color="#8c6c1c"/>
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
-  <g transform="translate(80,90)">
+  <g transform="translate(80,86)">
     <rect x="0" y="0" width="60" height="60" rx="18" fill="url(#gold)"/>
-    <text x="30" y="44" font-family="Pretendard, sans-serif" font-size="34" font-weight="900" text-anchor="middle" fill="#1a1305">G</text>
-    <text x="80" y="42" font-family="Pretendard, sans-serif" font-size="30" font-weight="800" fill="#f6f8ff">GUGU 마사지</text>
+    <text x="30" y="44" font-family="Pretendard, sans-serif" font-size="34" font-weight="900" text-anchor="middle" fill="#ffffff">G</text>
+    <text x="80" y="42" font-family="Pretendard, sans-serif" font-size="30" font-weight="800" fill="#16203a">GUGU 마사지</text>
   </g>
-  <text x="80" y="290" font-family="Pretendard, sans-serif" font-size="78" font-weight="900" fill="#f6f8ff">서울 출장마사지</text>
-  <text x="80" y="380" font-family="Pretendard, sans-serif" font-size="78" font-weight="900" fill="url(#gold)">서울특별시 홈타이 안내</text>
-  <text x="80" y="455" font-family="Pretendard, sans-serif" font-size="34" font-weight="500" fill="#c3cbe8">25개 자치구 · 대표 행정동 · 핵심 역세권 지역별 예약 안내</text>
+  <text x="80" y="288" font-family="Pretendard, sans-serif" font-size="76" font-weight="900" fill="#16203a">서울 출장마사지</text>
+  <text x="80" y="378" font-family="Pretendard, sans-serif" font-size="76" font-weight="900" fill="url(#gold)">서울특별시 홈타이 안내</text>
+  <text x="80" y="452" font-family="Pretendard, sans-serif" font-size="33" font-weight="500" fill="#3d4965">25개 자치구 · 대표 행정동 · 핵심 역세권 지역별 예약 안내</text>
   <g transform="translate(80,520)">
     <rect x="0" y="0" width="430" height="64" rx="32" fill="url(#gold)"/>
-    <text x="215" y="42" font-family="Pretendard, sans-serif" font-size="30" font-weight="800" text-anchor="middle" fill="#1a1305">전화예약 0508-202-4719</text>
+    <text x="215" y="42" font-family="Pretendard, sans-serif" font-size="30" font-weight="800" text-anchor="middle" fill="#ffffff">전화예약 0508-202-4719</text>
   </g>
+  <rect x="0.5" y="0.5" width="1199" height="629" fill="none" stroke="#e6ebf3"/>
 </svg>

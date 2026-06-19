@@ -72,7 +72,7 @@ def head(title, desc, canonical, schema_blocks, extra_keywords=""):
 <meta name="twitter:title" content="{esc(title)}">
 <meta name="twitter:description" content="{esc(desc)}">
 <meta name="twitter:image" content="{esc(og_img)}">
-<meta name="theme-color" content="#070b1d">
+<meta name="theme-color" content="#ffffff">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/css/style.css">
@@ -87,7 +87,7 @@ def header():
     return f"""<a class="skip-link" href="#main">본문 바로가기</a>
 <header class="site-header">
   <div class="wrap nav">
-    <a class="brand" href="/seoul-chuljangmassage/">
+    <a class="brand" href="/">
       <span class="mark"><span>G</span></span>
       <span>{esc(SITE['brand'])} <small class="muted">서울 출장마사지</small></span>
     </a>
@@ -126,7 +126,7 @@ def footer():
       </div>
       <div>
         <h4>자치구 바로가기</h4>
-        <div class="footer-links">{district_links}<a href="/seoul-chuljangmassage/#districts">전체 25개 구 →</a></div>
+        <div class="footer-links">{district_links}<a href="/#districts">전체 25개 구 →</a></div>
       </div>
     </div>
     <div class="footer-bottom">
@@ -158,7 +158,7 @@ def org_schema():
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": SITE["brand"],
-        "url": BASE + "/seoul-chuljangmassage/",
+        "url": BASE + "/",
         "telephone": SITE["phone"],
         "areaServed": {"@type": "City", "name": "서울특별시"},
         "logo": BASE + SITE["og_image"],
@@ -192,7 +192,7 @@ def webpage_schema(name, desc, url):
         "description": desc,
         "url": BASE + url,
         "inLanguage": "ko-KR",
-        "isPartOf": {"@type": "WebSite", "name": SITE["brand"], "url": BASE + "/seoul-chuljangmassage/"},
+        "isPartOf": {"@type": "WebSite", "name": SITE["brand"], "url": BASE + "/"},
         "primaryImageOfPage": {
             "@type": "ImageObject",
             "contentUrl": BASE + SITE["og_image"],
@@ -278,7 +278,7 @@ def cta_panel(heading="지금 전화로 바로 예약하세요"):
 # 메인 페이지                                                            #
 # --------------------------------------------------------------------- #
 def render_main():
-    url = "/seoul-chuljangmassage/"
+    url = "/"
     title = "서울 출장마사지｜25개 자치구 홈타이 지역별 예약 안내"
     desc = "서울 출장마사지·홈타이 예약 전 자치구, 행정동, 역세권 정보를 확인하세요."
 
@@ -297,36 +297,59 @@ def render_main():
   <div class="wrap">
     <div class="eyebrow">SEOUL · 출장마사지 &amp; 홈타이</div>
     <h1>서울 출장마사지 · 서울특별시 홈타이<br><span class="text-gold">지역별 예약 안내</span></h1>
-    <p class="lead">서울은 25개 자치구마다 생활권과 이동 기준이 다릅니다. 예약 전 본인 지역의 자치구·대표 행정동·핵심 역세권 정보를 먼저 확인하세요.</p>
+    <p class="lead">서울 출장마사지와 서울 홈타이를 찾을 때는 현재 위치를 기준으로 어느 자치구, 어떤 대표 행정동, 가까운 역세권에서 방문이 가능한지를 먼저 확인하는 것이 좋습니다. 이 페이지는 서울 25개 자치구를 한눈에 선택하고, 구별 생활권과 예약 전 확인사항을 차례로 살펴볼 수 있도록 정리한 지역 안내입니다.</p>
     <div class="hero-badges">
       <span class="badge"><span class="dot"></span>25개 자치구 전지역 안내</span>
       <span class="badge"><span class="dot"></span>대표 행정동·역세권 기준</span>
       <span class="badge"><span class="dot"></span>예약 전 확인사항 제공</span>
     </div>
     <div class="cta-row">
-      <a class="btn btn-gold" href="tel:{esc(SITE['phone_tel'])}">📞 전화예약 {esc(SITE['phone'])}</a>
-      <a class="btn btn-ghost" href="#districts">25개 자치구 보기</a>
+      <a class="btn btn-gold" href="#districts">현재 위치 기준으로 예약 가능 지역 확인</a>
+      <a class="btn btn-ghost" href="tel:{esc(SITE['phone_tel'])}">📞 전화예약 {esc(SITE['phone'])}</a>
     </div>
+  </div>
+</section>
+
+<section class="section" id="intro">
+  <div class="wrap prose">
+    <h2>서울에서 출장마사지를 찾을 때 먼저 확인할 기준</h2>
+    <p>서울은 강남, 송파, 마포, 영등포, 용산, 강서, 노원처럼 자치구마다 생활권과 이동 시간이 크게 다릅니다. 같은 서울이라도 업무지구가 밀집한 곳과 대단지 주거지, 상권 중심지는 방문 가능 시간과 이동 경로가 다르게 잡힙니다. 그래서 예약 전에는 방문 가능 지역, 예약 가능 시간, 추가 이동비, 결제 방식, 취소 기준을 먼저 확인하는 것이 좋습니다. 특히 출퇴근 시간대나 주말에는 거리보다 교통 상황이 이동 시간을 더 크게 좌우하므로, 희망 시간에 여유를 두고 문의하면 안내가 한결 수월합니다.</p>
   </div>
 </section>
 
 <section class="section" id="districts">
   <div class="wrap">
-    <div class="eyebrow">자치구 선택</div>
-    <h2>서울 25개 자치구 출장마사지·홈타이</h2>
-    <p class="muted" style="max-width:64ch">원하는 자치구를 선택하면 해당 구의 생활권 설명과 대표 행정동 버튼, 핵심 역세권, 예약 전 확인사항을 확인할 수 있습니다.</p>
+    <div class="eyebrow">25개 자치구 선택</div>
+    <h2>서울 25개 자치구별 방문 가능 지역 보기</h2>
+    <p class="muted" style="max-width:64ch">먼저 본인이 있는 자치구를 선택하세요. 각 버튼을 누르면 해당 구의 생활권 설명과 대표 행정동 버튼, 핵심 역세권, 예약 전 확인사항을 확인할 수 있습니다. 모바일에서는 2열, 데스크톱에서는 여러 열로 보기 좋게 배치됩니다.</p>
     <div style="margin-top:22px">{grid}</div>
   </div>
 </section>
 
-<section class="section">
+<section class="section" id="dong-select">
   <div class="wrap prose">
-    <h2>서울 출장마사지 사이트 이용 방법</h2>
-    <p>서울 출장마사지를 찾는 분들은 대부분 현재 위치에서 가까운 방문 가능 지역을 먼저 확인합니다. 서울은 25개 자치구로 나뉘고, 각 구마다 생활권과 이동 기준이 다릅니다. 강남구와 서초구는 강남역·역삼역·교대역·고속터미널역을 중심으로 업무지구와 주거지가 함께 있고, 송파구는 잠실역·문정역·가락시장역·석촌역 생활권이 중요합니다. 마포구는 홍대입구역·합정역·공덕역을 중심으로 상권과 주거지가 연결되고, 영등포구는 여의도와 영등포역·당산역 생활권을 함께 고려해야 합니다.</p>
-    <p>메인페이지에서는 25개 자치구를 버튼으로 보여주고, 사용자가 구를 선택하면 해당 구 페이지 안에서 대표 행정동 버튼을 다시 고를 수 있도록 구성했습니다. 번호로 나뉜 행정동(예: 논현1·2동, 역삼1·2동, 잠실본동~잠실7동)은 대표동 한 곳으로 통합해, 사용자가 본인 생활권을 빠르게 찾고 검색엔진도 구조를 이해하기 쉽게 했습니다.</p>
-    <p>각 구 페이지는 지역명만 바꾼 반복 콘텐츠가 아니라, 그 구의 실제 생활권·상권·업무지구·역세권 차이와 예약 전 확인사항을 담고 있습니다. 강남구 페이지는 테헤란로 업무지구와 압구정·청담 상권, 대치동 학원가, 수서역 생활권을 다루고, 마포구 페이지는 홍대입구·합정·공덕·상암DMC 생활권을 다루는 식으로 본문 내용이 서로 다릅니다.</p>
-    <h2>서울 홈타이 예약 전 확인할 점</h2>
-    <p>서울 홈타이는 자택·숙소·사무실 인근에서 예약 가능 여부를 먼저 확인한 뒤 이용하는 방문형 관리 서비스입니다. 예약 전에는 방문 가능 지역, 예약 가능 시간, 추가 이동비, 결제 방식, 취소 기준, 개인정보 처리 기준을 확인하는 것이 좋습니다. 서울은 거리보다 시간대별 교통 상황이 더 중요할 때가 많아, 강남역·여의도·홍대입구·잠실·서울역 주변은 평일 저녁과 주말의 이동 시간이 다를 수 있습니다. 자세한 공통 기준은 <a href="/guide/booking/">예약 안내</a>와 <a href="/guide/before-use/">이용 전 확인사항</a>에서 확인하세요.</p>
+    <h2>자치구 페이지에서 대표 행정동을 선택하는 방식</h2>
+    <p>자치구 버튼을 선택하면 해당 구 상세 페이지로 이동하고, 본문 중간에서 그 구의 대표 행정동 버튼을 다시 고를 수 있습니다. 예를 들어 강남구 페이지에서는 신사동, 압구정동, 청담동, 논현동, 삼성동, 역삼동, 대치동 같은 대표 행정동을 버튼으로 보여주고, 송파구 페이지에서는 잠실동, 문정동, 가락동, 방이동 등을 보여줍니다. 이렇게 두 단계로 나눈 이유는 사용자가 본인 위치를 빠르게 찾고, 각 동의 생활권 차이를 구분해 확인할 수 있도록 하기 위함입니다. 구를 먼저 고르고 그다음 가까운 동이나 역세권을 선택하는 흐름이 가장 직관적입니다.</p>
+
+    <h2 id="dong-merge">번호 동을 대표동으로 통합하는 이유</h2>
+    <p>행정동은 1동, 2동, 3동처럼 번호로 나뉘는 경우가 많은데, 이를 각각 별도 페이지로 만들면 본문이 비슷해져 반복 콘텐츠처럼 보일 위험이 있습니다. 그래서 번호 동은 생활권이 같은 대표동 하나로 통합했습니다. 예를 들어 잠실본동·잠실2동·잠실3동은 잠실동으로, 화곡1동·화곡2동·화곡3동은 화곡동으로, 목1동부터 목5동까지는 목동으로, 상계1동부터 상계10동까지는 상계동으로 묶었습니다. 이렇게 하면 페이지 수를 무리하게 늘리지 않으면서 각 지역의 실제 생활권 정보를 더 충실하게 담을 수 있습니다.</p>
+
+    <h2 id="living">서울 주요 생활권 안내</h2>
+    <p>서울은 자치구마다 검색 의도와 생활권이 다릅니다. 강남은 강남역·역삼·선릉·삼성 생활권, 서초는 교대·반포·양재 생활권을 중심으로 업무지구와 주거지가 함께 있습니다. 송파는 잠실·문정·가락 생활권, 마포는 홍대입구·합정·공덕 생활권으로 상권과 주거지가 이어지고, 영등포는 여의도·영등포역·당산 생활권, 용산은 서울역·용산역·이태원 생활권이 중요합니다. 강서는 마곡·화곡·김포공항, 노원은 노원역·상계·중계처럼 북부 대단지 생활권이 두드러집니다. 이렇게 지역마다 이동 기준이 다르므로, 본인 생활권에 맞는 구 페이지를 확인하는 것이 정확합니다.</p>
+
+    <h2 id="hometai">서울 홈타이 예약 전 확인사항</h2>
+    <p>서울 홈타이는 자택, 숙소, 사무실 인근에서 예약 가능 여부를 먼저 확인한 뒤 이용하는 방문형 관리 서비스입니다. 출장마사지와 함께 자주 쓰이는 표현으로, 익숙한 공간에서 이동 부담을 줄여 관리받고자 할 때 찾습니다. 예약 전에는 방문 가능 지역, 예약 가능 시간, 추가 이동비, 결제 방식, 취소 기준, 그리고 개인정보 처리 기준을 확인하는 것이 좋습니다. 위치는 가까운 역 출구나 건물명, 아파트 단지·동을 함께 전달하면 안내가 빨라집니다. 자세한 공통 기준은 <a href="/guide/booking/">예약 안내</a>와 <a href="/guide/before-use/">이용 전 확인사항</a> 페이지에서 확인할 수 있습니다.</p>
+
+    <h2 id="policy">사이트 운영 기준</h2>
+    <p>이 사이트의 모든 페이지는 사용자가 지역을 선택하고 예약 전 필요한 정보를 확인하도록 돕는 것을 목적으로 작성합니다. 지역명만 바꾼 반복 문장을 피하고, 각 구와 행정동의 생활권 차이가 실제로 다르게 느껴지도록 구성했습니다. 또한 불법·선정적 표현이나 허위 후기, 가짜 체험담을 사용하지 않으며, 방문형 관리·예약 가능 지역·이용 전 확인사항·개인정보 처리 기준·추가 이동비 확인처럼 신뢰할 수 있는 정보형 문장을 사용합니다. 정상적인 방문 관리 안내 사이트로서 필요한 정보를 분명하게 제공하는 것을 기준으로 삼습니다.</p>
+
+    <h2>이용 순서와 함께 볼 페이지</h2>
+    <p>이용 순서는 간단합니다. 먼저 본인이 있는 자치구를 선택하고, 그다음 대표 행정동 또는 가까운 역세권을 고른 뒤, <a href="/guide/before-use/">예약 전 확인사항</a>을 함께 확인하면 됩니다. <a href="/guide/hometai/">홈타이 이용 가이드</a>와 <a href="/privacy/">개인정보 처리방침</a>도 참고하시면 예약 과정을 더 분명하게 이해할 수 있습니다.</p>
+    <div class="chip-grid" style="margin-top:18px">
+      <a class="chip" href="#districts">자치구별 방문 가능 지역 보기</a>
+      <a class="chip" href="/guide/before-use/">예약 전 확인사항 보기</a>
+      <a class="chip" href="/guide/hometai/">홈타이 이용 기준 확인</a>
+    </div>
   </div>
 </section>
 
@@ -337,9 +360,10 @@ def render_main():
         org_schema(),
         webpage_schema(title, desc, url),
         breadcrumb_schema([("서울 출장마사지", url)]),
-        image_object("서울 출장마사지·홈타이 지역 안내"),
+        image_object("서울 출장마사지 자치구별 지역 안내 이미지"),
     ]
-    write(["seoul-chuljangmassage"], page(title, desc, url, body, schema))
+    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
+        f.write(page(title, desc, url, body, schema))
 
 
 # --------------------------------------------------------------------- #
@@ -372,7 +396,7 @@ def render_district(d):
         for q, a in c["faqs"]
     )
 
-    crumbs = [("서울 출장마사지", "/seoul-chuljangmassage/"), (f"{name} 출장마사지", url)]
+    crumbs = [("서울 출장마사지", "/"), (f"{name} 출장마사지", url)]
 
     body = f"""
 <section class="hero" style="padding-block:clamp(38px,7vw,72px)">
@@ -504,7 +528,7 @@ def simple_page(path_parts, url, title, desc, crumbs, inner, faqs=None, extra_kw
 
 
 def render_guides():
-    H = "/seoul-chuljangmassage/"
+    H = "/"
 
     # 1) 예약 안내
     simple_page(
@@ -586,7 +610,7 @@ def render_guides():
         <h2>준비하면 좋은 점</h2>
         <p>방문 전 공간을 정리하고, 단지·건물 출입 절차나 주차 가능 여부를 미리 확인하면 이용이 한결 매끄럽습니다. 지역별 이동 기준은 각 자치구 페이지에서 확인할 수 있습니다.</p>
         <h2>지역별 안내 보기</h2>
-        <p>서울 25개 자치구의 생활권·역세권·예약 전 확인사항은 <a href="/seoul-chuljangmassage/#districts">자치구별 안내</a>에서 확인하세요.</p>
+        <p>서울 25개 자치구의 생활권·역세권·예약 전 확인사항은 <a href="/#districts">자치구별 안내</a>에서 확인하세요.</p>
         """,
         faqs=[
             ("홈타이와 출장마사지는 다른가요?", "둘 다 방문형 관리 서비스를 가리키는 표현으로, 자택·숙소 등 이용자 공간 인근에서 예약 가능 여부를 확인한 뒤 이용한다는 점이 같습니다."),
@@ -647,35 +671,15 @@ def render_guides():
 
 
 # --------------------------------------------------------------------- #
-# 루트 리다이렉트 + sitemap + robots                                     #
+# sitemap + robots + Cloudflare 설정                                     #
 # --------------------------------------------------------------------- #
-def render_root_redirect():
-    canonical = BASE + "/seoul-chuljangmassage/"
-    content = f"""<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="utf-8">
-<title>서울 출장마사지｜25개 자치구 홈타이 지역별 예약 안내</title>
-<meta name="description" content="서울 출장마사지·홈타이 예약 전 자치구, 행정동, 역세권 정보를 확인하세요.">
-<link rel="canonical" href="{esc(canonical)}">
-<meta http-equiv="refresh" content="0; url=/seoul-chuljangmassage/">
-</head>
-<body>
-<p><a href="/seoul-chuljangmassage/">서울 출장마사지 메인으로 이동</a></p>
-<script>location.replace("/seoul-chuljangmassage/");</script>
-</body>
-</html>"""
-    with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
-        f.write(content)
-
-
 def render_sitemap():
-    urls = ["/seoul-chuljangmassage/"]
+    urls = ["/"]
     urls += [district_url(d["slug"]) for d in DISTRICTS]
     urls += [g["url"] for g in GUIDE_PAGES]
     items = "".join(
         f"<url><loc>{esc(BASE + u)}</loc><lastmod>{SITE['updated']}</lastmod>"
-        f"<changefreq>weekly</changefreq><priority>{'1.0' if u=='/seoul-chuljangmassage/' else '0.8'}</priority></url>"
+        f"<changefreq>weekly</changefreq><priority>{'1.0' if u=='/' else '0.8'}</priority></url>"
         for u in urls
     )
     xml = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{items}</urlset>\n'
@@ -690,8 +694,8 @@ def render_robots():
 
 
 def render_cloudflare():
-    # 루트는 메인으로 302 (HTML 플래시 없는 깔끔한 리다이렉트)
-    redirects = "/    /seoul-chuljangmassage/    302\n"
+    # 메인은 루트(/)에서 직접 서빙. 지시서 경로(/seoul-chuljangmassage/)는 루트로 301.
+    redirects = "/seoul-chuljangmassage/    /    301\n/seoul-chuljangmassage    /    301\n"
     with open(os.path.join(ROOT, "_redirects"), "w", encoding="utf-8") as f:
         f.write(redirects)
     # 정적 자산 장기 캐시 + 기본 보안 헤더
@@ -720,7 +724,6 @@ def main():
     for d in DISTRICTS:
         render_district(d)
     render_guides()
-    render_root_redirect()
     render_sitemap()
     render_robots()
     render_cloudflare()
