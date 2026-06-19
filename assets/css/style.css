@@ -555,3 +555,19 @@ h1, h2, h3, h4 { color: var(--t-hi); line-height: 1.32; letter-spacing: -0.02em;
 @media (prefers-reduced-motion: reduce) {
   * { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 }
+
+/* ------------------------------------------------------------------ */
+/* 12. 노선별 전체 역 아코디언                                          */
+/* ------------------------------------------------------------------ */
+.line-group {
+  border: 1px solid var(--glass-border); border-radius: var(--r-md);
+  padding: 14px 16px; margin-bottom: 12px; background: var(--glass-bg);
+}
+.line-group > summary {
+  cursor: pointer; font-weight: 700; color: var(--t-hi); font-size: 1.02rem;
+  list-style: none; display: flex; align-items: center; gap: 8px;
+}
+.line-group > summary::-webkit-details-marker { display: none; }
+.line-group > summary::before { content: "▸"; color: var(--gold); transition: transform .15s ease; }
+.line-group[open] > summary::before { transform: rotate(90deg); }
+.line-group > summary .muted { font-weight: 500; font-size: .85rem; }
