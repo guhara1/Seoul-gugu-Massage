@@ -15,7 +15,7 @@ from src.data_site import (
     SITE, KEYWORDS_MAIN, KEYWORDS_SUB, GUIDE_PAGES, DISTRICTS, DONGS,
 )
 from src.data_districts import CONTENT
-from src.data_areas import STATIONS, ZONES
+from src.data_areas import STATIONS, ZONES, STATION_EXTRA
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 BASE = SITE["base_url"].rstrip("/")
@@ -789,6 +789,29 @@ def render_station(s):
         f'<a class="chip" href="/guide/hometai/">{esc(name)} 홈타이 이용 가이드</a>'
     )
 
+    # 노선·출구 롱테일 섹션
+    extra = STATION_EXTRA.get(slug, {})
+    line_list = [ln.strip() for ln in s["lines"].split("·") if ln.strip()]
+    line_badges = " · ".join(f"{name} {ln}" for ln in line_list)
+    line_kw = ", ".join(f"{name} {ln} 출장마사지" for ln in line_list)
+    exits = extra.get("exits", [])
+    exit_items = "".join(
+        f"<li><strong>{esc(name)} {esc(label)}</strong> — {esc(d_)}</li>" for label, d_ in exits
+    )
+    exit_lead = exits[0][0] if exits else "가까운 출구"
+    line_exit_section = f"""
+<section class="section">
+  <div class="wrap prose">
+    <h2>{esc(name)} 노선·출구 안내</h2>
+    <p>{esc(extra.get('access',''))}</p>
+    <p class="muted">이용 가능 노선: {esc(line_badges)}</p>
+    <h3>{esc(name)} 출구별 위치</h3>
+    <ul>{exit_items}</ul>
+    <p>{esc(name)}에서 출장마사지·홈타이를 예약할 때는 {esc(name)} {esc(exit_lead)} 등 가까운 출구와 건물명을 함께 알려주시면 이동 안내가 빠릅니다. 노선별로는 {esc(line_kw)} 검색으로도 같은 안내를 확인할 수 있습니다.</p>
+  </div>
+</section>
+""" if extra else ""
+
     faq_html = "".join(
         f"<details><summary>{esc(q)}</summary><p>{esc(a)}</p></details>" for q, a in s["faqs"]
     )
@@ -817,6 +840,7 @@ def render_station(s):
     <p>{esc(name)}은 {esc(gu_name)}에 속한 역세권으로, {esc(s['lines'])}을 이용할 수 있습니다. {esc(name)} 출장마사지나 홈타이를 검색하는 분들은 가까운 출구와 건물을 기준으로 방문 가능 여부를 먼저 확인합니다. 더 넓은 지역 기준은 <a href="{esc(district_url(gu['slug']))}">{esc(gu_name)} 출장마사지 안내</a>에서 함께 확인할 수 있습니다.</p>
   </div>
 </section>
+{line_exit_section}
 
 <section class="section">
   <div class="wrap prose">
